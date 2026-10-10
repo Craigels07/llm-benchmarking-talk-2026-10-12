@@ -1,0 +1,5 @@
+.env
+__pycache__/
+.ruff_cache/
+# Artificial Analysis terms do not allow publishing raw data files; fetch your own copy
+data/

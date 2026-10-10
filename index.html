@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LLM benchmark explorer</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <style>
+      :root {
+        --page: #ffffff;
+        --ink: #1f2937;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        color-scheme: light;
+      }
+      :root[data-theme="dark"] {
+        --page: #0f172a;
+        --ink: #e2e8f0;
+        --muted: #94a3b8;
+        --border: #1e293b;
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: system-ui, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      main {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+      }
+      aside {
+        width: 280px;
+        padding: 12px;
+        overflow-y: auto;
+        border-right: 1px solid var(--border);
+        font-size: 14px;
+      }
+      aside h3 {
+        margin: 14px 0 6px;
+        font-size: 14px;
+      }
+      aside h3:first-child {
+        margin-top: 0;
+      }
+      label {
+        display: block;
+      }
+      .log {
+        margin-left: 22px;
+        color: var(--muted);
+      }
+      #model-list {
+        max-height: 260px;
+        overflow-y: auto;
+        border: 1px solid var(--border);
+        padding: 4px;
+        margin-top: 6px;
+      }
+      #search {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      #chart-area {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      #chart {
+        flex: 1;
+        min-height: 0;
+      }
+      #toolbar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      #note {
+        flex: 1;
+      }
+      #views[hidden] {
+        display: none;
+      }
+      a {
+        color: inherit;
+      }
+      #message {
+        padding: 40px;
+        font-size: 18px;
+        color: var(--muted);
+      }
+      footer {
+        padding: 6px 12px;
+        border-top: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <aside>
+        <h3>Metrics</h3>
+        <div id="metrics"></div>
+        <label
+          ><input type="checkbox" id="labels" /> Show model names on
+          points</label
+        >
+        <label
+          ><input type="checkbox" id="trends" checked /> Show provider trend
+          lines (dashed = projection)</label
+        >
+        <h3>Providers</h3>
+        <div id="providers"></div>
+        <h3>Models</h3>
+        <input id="search" type="search" placeholder="Search models" />
+        <button id="select-all">Select all</button>
+        <button id="select-none">Select none</button>
+        <div id="model-list"></div>
+      </aside>
+      <div id="chart-area">
+        <div id="toolbar">
+          <span id="note"></span>
+          <span id="views"></span>
+          <button id="theme"></button>
+        </div>
+        <div id="chart"></div>
+        <div id="message" hidden>Pick at least two metrics.</div>
+      </div>
+    </main>
+    <footer>
+      Data: <a href="https://artificialanalysis.ai/">Artificial Analysis</a> ·
+      fetched <span id="fetched-at"></span>
+    </footer>
+
+    <script>
+      // zeroMissing: the API reports 0 when it has no measurement
+      const METRICS = [
+        {
+          key: "intelligence",
+          label: "Intelligence Index",
+          on: true,
+          canLog: false,
+        },
+        {
+          key: "cost_blended",
+          label: "Cost (blended $/1M tokens)",
+          on: true,
+          canLog: true,
+          log: true,
+          format: (v) => "$" + v,
+        },
+        {
+          key: "speed_tps",
+          label: "Output speed (tokens/s)",
+          on: false,
+          canLog: true,
+          log: false,
+          zeroMissing: true,
+          format: (v) => v.toFixed(0) + " tok/s",
+        },
+        {
+          key: "ttfat_s",
+          label: "Latency (time to first answer token, s)",
+          on: true,
+          canLog: true,
+          log: true,
+          zeroMissing: true,
+          format: (v) => v.toFixed(1) + " s",
+        },
+      ];
+      const PALETTE = [
+        "#636efa",
+        "#ef553b",
+        "#00cc96",
+        "#ab63fa",
+        "#ffa15a",
+        "#19d3f3",
+        "#ff6692",
+        "#b6e880",
+      ];
+
+      // S3 (light, shaded walls) and S2 (dark, faint grid)
+      const THEMES = {
+        light: {
+          page: "#ffffff",
+          ink: "#1f2937",
+          wall: "#eef1f6",
+          grid: "#ffffff",
+          line: "#cbd5e1",
+          walls: true,
+        },
+        dark: {
+          page: "#0f172a",
+          ink: "#e2e8f0",
+          wall: "#0f172a",
+          grid: "#26344d",
+          line: "#475569",
+          walls: false,
+        },
+      };
+      let theme =
+        localStorage.getItem("theme") ||
+        (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+      // Camera presets, as (azimuth, elevation) in degrees around the vertical axis
+      const DEFAULT_VIEW = { az: -45, el: 30 };
+      const MAX_EL = 89; // stop short of straight down, where rotation spins around
+      const MIN_EL = 0; // never look from underneath
+      const CAMERA_DISTANCE = 2.2;
+
+      let models = [];
+      let providers = [];
+      const selectedProviders = new Set();
+      const selectedModels = new Set();
+
+      const $ = (id) => document.getElementById(id);
+
+      function checkbox(text, checked, onChange) {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = checked;
+        input.addEventListener("change", () => onChange(input.checked));
+        label.append(input, " " + text);
+        return label;
+      }
+
+      function buildMetricControls() {
+        for (const metric of METRICS) {
+          $("metrics").append(
+            checkbox(metric.label, metric.on, (checked) => {
+              metric.on = checked;
+              render();
+            }),
+          );
+          if (metric.canLog) {
+            const log = checkbox("log scale", metric.log, (checked) => {
+              metric.log = checked;
+              render();
+            });
+            log.className = "log";
+            $("metrics").append(log);
+          }
+        }
+      }
+
+      function buildProviderControls() {
+        for (const provider of providers) {
+          selectedProviders.add(provider);
+          $("providers").append(
+            checkbox(provider, true, (checked) => {
+              checked
+                ? selectedProviders.add(provider)
+                : selectedProviders.delete(provider);
+              renderModelList();
+              render();
+            }),
+          );
+        }
+      }
+
+      function listedModels() {
+        const search = $("search").value.toLowerCase();
+        return models.filter(
+          (m) =>
+            selectedProviders.has(m.provider) &&
+            m.name.toLowerCase().includes(search),
+        );
+      }
+
+      function renderModelList() {
+        $("model-list").replaceChildren(
+          ...listedModels().map((m) =>
+            checkbox(m.name, selectedModels.has(m.id), (checked) => {
+              checked ? selectedModels.add(m.id) : selectedModels.delete(m.id);
+              render();
+            }),
+          ),
+        );
+      }
+
+      function setListed(selected) {
+        for (const m of listedModels())
+          selected ? selectedModels.add(m.id) : selectedModels.delete(m.id);
+        renderModelList();
+        render();
+      }
+
+      const PROJECT_BY = 0.5; // extend the trend by half its length past the models
+
+      // Best-fit line through one provider's points (first principal component, in
+      // log space for log axes, each axis scaled by its spread). Returns a solid part
+      // spanning the models and a dashed part projecting towards the vertical axis' high end.
+      function trendLine(points, axes) {
+        if (points.length < 3) return null;
+        const tf = axes.map((a) => (v) => (a.log ? Math.log10(v) : v));
+        const rows = points.map((m) => axes.map((a, i) => tf[i](m[a.key])));
+        const n = axes.length;
+        const mean = [...Array(n)].map(
+          (_, i) => rows.reduce((s, r) => s + r[i], 0) / rows.length,
+        );
+        const sd = mean.map(
+          (mu, i) =>
+            Math.sqrt(
+              rows.reduce((s, r) => s + (r[i] - mu) ** 2, 0) / rows.length,
+            ) || 1,
+        );
+        const z = rows.map((r) => r.map((v, i) => (v - mean[i]) / sd[i]));
+        const cov = mean.map((_, i) =>
+          mean.map((_, j) => z.reduce((s, r) => s + r[i] * r[j], 0) / z.length),
+        );
+        // Power iteration for the main direction, seeded from the largest covariance
+        // column (a fixed seed like [1, 1] can be orthogonal to it and collapse to zero)
+        let dir = cov.reduce((best, col) =>
+          Math.hypot(...col) > Math.hypot(...best) ? col : best,
+        );
+        if (!Math.hypot(...dir)) return null; // every point is identical
+        for (let k = 0; k < 50; k++) {
+          const next = cov.map((row) =>
+            row.reduce((s, c, j) => s + c * dir[j], 0),
+          );
+          const len = Math.hypot(...next) || 1;
+          dir = next.map((v) => v / len);
+        }
+        if (dir[n - 1] < 0) dir = dir.map((v) => -v); // point up the vertical axis
+        const along = z.map((r) => r.reduce((s, v, i) => s + v * dir[i], 0));
+        const lo = Math.min(...along);
+        const hi = Math.max(...along);
+        const toPoint = (s) =>
+          dir.map((d, i) => {
+            const v = mean[i] + s * d * sd[i];
+            return axes[i].log ? 10 ** v : v;
+          });
+        return {
+          solid: [toPoint(lo), toPoint(hi)],
+          dashed: [toPoint(hi), toPoint(hi + PROJECT_BY * (hi - lo))],
+        };
+      }
+
+      function hasValue(model, metric) {
+        const value = model[metric.key];
+        if (value === null) return false;
+        if (metric.zeroMissing && value <= 0) return false;
+        return !(metric.log && value <= 0); // log axis cannot show 0
+      }
+
+      function hoverText(model) {
+        const lines = [
+          `<b>${model.name}</b>`,
+          model.provider,
+          "Released " + (model.release_date || "n/a"),
+        ];
+        for (const metric of METRICS) {
+          const value = model[metric.key];
+          const shown =
+            value === null
+              ? "n/a"
+              : metric.format
+                ? metric.format(value)
+                : value;
+          lines.push(`${metric.label.split(" (")[0]}: ${shown}`);
+        }
+        return lines.join("<br>");
+      }
+
+      // Maps values to marker sizes of 6..26 px, on the same scale (log or linear) as the metric
+      function sizeScale(models, metric) {
+        const scale = metric.log ? Math.log : (v) => v;
+        const values = models.map((m) => scale(m[metric.key]));
+        const min = Math.min(...values);
+        const range = Math.max(...values) - min || 1;
+        return (m) => 6 + (20 * (scale(m[metric.key]) - min)) / range;
+      }
+
+      function axisLayout(metric, is3d) {
+        const t = THEMES[theme];
+        return {
+          title: metric.label,
+          type: metric.log ? "log" : "linear",
+          dtick: metric.log ? 1 : undefined, // log axes: label 0.1, 1, 10, 100 only
+          gridcolor: t.grid,
+          zerolinecolor: t.line,
+          linecolor: t.line,
+          showline: true,
+          showspikes: false,
+          ...(is3d && { showbackground: t.walls, backgroundcolor: t.wall }),
+        };
+      }
+
+      // Perspective only: switching Plotly 2.35 to orthographic blanks the 3D scene
+      function cameraAt({ az, el }) {
+        const a = (az * Math.PI) / 180;
+        const e = (el * Math.PI) / 180;
+        return {
+          up: { x: 0, y: 0, z: 1 },
+          center: { x: 0, y: 0, z: 0 },
+          eye: {
+            x: CAMERA_DISTANCE * Math.cos(e) * Math.cos(a),
+            y: CAMERA_DISTANCE * Math.cos(e) * Math.sin(a),
+            z: CAMERA_DISTANCE * Math.sin(e),
+          },
+        };
+      }
+
+      // After a drag, pull the camera back inside MIN_EL..MAX_EL and keep "up" vertical
+      function clampCamera(event) {
+        const camera = event["scene.camera"];
+        if (!camera) return;
+        const { x, y, z } = camera.eye;
+        const flat = Math.hypot(x, y);
+        const el = (Math.atan2(z, flat) * 180) / Math.PI;
+        const tilted = camera.up && (camera.up.x || camera.up.y);
+        if (el >= MIN_EL - 0.01 && el <= MAX_EL + 0.01 && !tilted) return;
+        const az = flat ? (Math.atan2(y, x) * 180) / Math.PI : DEFAULT_VIEW.az;
+        const clamped = cameraAt({
+          az,
+          el: Math.min(MAX_EL, Math.max(MIN_EL, el)),
+        });
+        Plotly.relayout("chart", { "scene.camera": clamped });
+      }
+
+      // Buttons for the default 3D view and one side-on view per pair of axes
+      function renderViews(axes) {
+        const short = (m) => m.label.split(" (")[0];
+        const views = [
+          ["Reset 3D", DEFAULT_VIEW],
+          [`${short(axes[2])} vs ${short(axes[0])}`, { az: -90, el: 0 }],
+          [`${short(axes[2])} vs ${short(axes[1])}`, { az: 0, el: 0 }],
+          [`${short(axes[1])} vs ${short(axes[0])}`, { az: -90, el: MAX_EL }],
+        ];
+        $("views").replaceChildren(
+          ...views.map(([text, view]) => {
+            const button = document.createElement("button");
+            button.textContent = text;
+            button.addEventListener("click", () =>
+              Plotly.relayout("chart", { "scene.camera": cameraAt(view) }),
+            );
+            return button;
+          }),
+        );
+      }
+
+      function applyTheme() {
+        document.documentElement.dataset.theme = theme;
+        $("theme").textContent = theme === "dark" ? "Light mode" : "Dark mode";
+      }
+
+      function render() {
+        const active = METRICS.filter((m) => m.on);
+        $("message").hidden = active.length >= 2;
+        $("chart").hidden = active.length < 2;
+        $("views").hidden = active.length !== 3 && active.length !== 4;
+        if (active.length < 2) {
+          $("note").textContent = "";
+          return;
+        }
+
+        // Intelligence goes on the vertical axis (y in 2D, z in 3D) when it is on
+        const vertical = active.find((m) => m.key === "intelligence");
+        const others = active.filter((m) => m !== vertical);
+        const flatCount = Math.min(active.length, 3) - (vertical ? 1 : 0);
+        const axes = vertical
+          ? [...others.slice(0, flatCount), vertical]
+          : others.slice(0, 3);
+        const sizeMetric = others[flatCount];
+        const is3d = axes.length === 3;
+
+        const candidates = models.filter(
+          (m) => selectedProviders.has(m.provider) && selectedModels.has(m.id),
+        );
+        const plotted = candidates.filter((m) =>
+          active.every((metric) => hasValue(m, metric)),
+        );
+        const hidden = candidates.length - plotted.length;
+        const zeroOnLog = candidates.filter(
+          (m) =>
+            active.some((metric) => metric.log && m[metric.key] === 0) &&
+            active.every(
+              (metric) =>
+                m[metric.key] !== null &&
+                !(metric.zeroMissing && m[metric.key] <= 0),
+            ),
+        ).length;
+        const size =
+          sizeMetric && plotted.length ? sizeScale(plotted, sizeMetric) : null;
+
+        $("note").textContent =
+          `${plotted.length} models shown, ${hidden - zeroOnLog} hidden: missing data` +
+          (zeroOnLog ? `, ${zeroOnLog} hidden: zero on a log axis.` : ".") +
+          (sizeMetric ? ` Marker size = ${sizeMetric.label}.` : "");
+
+        const traces = providers
+          .filter((p) => selectedProviders.has(p))
+          .flatMap((provider) => {
+            const points = plotted.filter((m) => m.provider === provider);
+            const color = PALETTE[providers.indexOf(provider) % PALETTE.length];
+            const trace = {
+              type: is3d ? "scatter3d" : "scatter",
+              mode: $("labels").checked ? "markers+text" : "markers",
+              name: provider,
+              uid: provider,
+              legendgroup: provider,
+              x: points.map((m) => m[axes[0].key]),
+              y: points.map((m) => m[axes[1].key]),
+              text: points.map((m) => m.name),
+              textposition: "top center",
+              hovertext: points.map(hoverText),
+              hoverinfo: "text",
+              marker: {
+                color,
+                size: size ? points.map(size) : 8,
+                opacity: 0.85,
+              },
+            };
+            if (is3d) trace.z = points.map((m) => m[axes[2].key]);
+
+            const trend = $("trends").checked && trendLine(points, axes);
+            if (!trend) return [trace];
+            const lines = [
+              ["solid", trend.solid],
+              ["dash", trend.dashed],
+            ].map(([dash, ends]) => {
+              const line = {
+                type: trace.type,
+                mode: "lines",
+                uid: `${provider}-${dash}`,
+                legendgroup: provider, // hidden together with the provider's dots
+                showlegend: false,
+                hoverinfo: "skip",
+                line: { color, width: is3d ? 5 : 2, dash },
+                x: ends.map((p) => p[0]),
+                y: ends.map((p) => p[1]),
+              };
+              if (is3d) line.z = ends.map((p) => p[2]);
+              return line;
+            });
+            return [trace, ...lines];
+          });
+
+        const t = THEMES[theme];
+        const layout = {
+          // Keep zoom/camera across filter and theme changes, reset it when the axes change
+          uirevision: axes
+            .map((m) => `${m.key}:${m.log ? "log" : "linear"}`)
+            .join("|"),
+          margin: { t: 10, r: 10, b: 40, l: 50 },
+          legend: { title: { text: "Provider" } },
+          paper_bgcolor: t.page,
+          plot_bgcolor: t.walls ? t.wall : t.page,
+          font: { color: t.ink },
+        };
+        if (is3d) {
+          renderViews(axes);
+          layout.scene = {
+            dragmode: "turntable",
+            camera: cameraAt(DEFAULT_VIEW),
+            xaxis: axisLayout(axes[0], true),
+            yaxis: axisLayout(axes[1], true),
+            zaxis: axisLayout(axes[2], true),
+          };
+        } else {
+          layout.xaxis = axisLayout(axes[0]);
+          layout.yaxis = axisLayout(axes[1]);
+        }
+        Plotly.react("chart", traces, layout, {
+          responsive: true,
+          displaylogo: false,
+        });
+      }
+
+      async function main() {
+        const response = await fetch("data/models.json");
+        if (!response.ok) {
+          $("chart").hidden = true;
+          $("message").hidden = false;
+          $("message").textContent =
+            "No data yet. Run python fetch_data.py to create data/models.json, then reload.";
+          return;
+        }
+        const data = await response.json();
+        models = data.models;
+        providers = [...new Set(models.map((m) => m.provider))].sort();
+        models.forEach((m) => selectedModels.add(m.id));
+        $("fetched-at").textContent = data.fetched_at;
+
+        buildMetricControls();
+        buildProviderControls();
+        renderModelList();
+        $("search").addEventListener("input", renderModelList);
+        $("select-all").addEventListener("click", () => setListed(true));
+        $("select-none").addEventListener("click", () => setListed(false));
+        $("labels").addEventListener("change", render);
+        $("trends").addEventListener("change", render);
+        $("theme").addEventListener("click", () => {
+          theme = theme === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", theme);
+          applyTheme();
+          render();
+        });
+        applyTheme();
+        render();
+        $("chart").on("plotly_relayout", clampCamera);
+      }
+
+      main();
+    </script>
+  </body>
+</html>
