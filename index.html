@@ -152,10 +152,12 @@
         },
         {
           key: "cost_blended",
-          label: "Cost (blended $/1M tokens)",
+          // List price, not cost per task: models that write more tokens cost more per task
+          label: "Price (blended $/1M tokens, 3:1 input:output)",
           on: true,
           canLog: true,
           log: true,
+          zeroMissing: true, // 0 = no API price (ChatGPT-only or retired models)
           format: (v) => "$" + v,
         },
         {
@@ -349,8 +351,7 @@
       function hasValue(model, metric) {
         const value = model[metric.key];
         if (value === null) return false;
-        if (metric.zeroMissing && value <= 0) return false;
-        return !(metric.log && value <= 0); // log axis cannot show 0
+        return !(metric.zeroMissing && value <= 0);
       }
 
       function hoverText(model) {
@@ -362,7 +363,7 @@
         for (const metric of METRICS) {
           const value = model[metric.key];
           const shown =
-            value === null
+            value === null || (metric.zeroMissing && value <= 0)
               ? "n/a"
               : metric.format
                 ? metric.format(value)
@@ -481,21 +482,11 @@
           active.every((metric) => hasValue(m, metric)),
         );
         const hidden = candidates.length - plotted.length;
-        const zeroOnLog = candidates.filter(
-          (m) =>
-            active.some((metric) => metric.log && m[metric.key] === 0) &&
-            active.every(
-              (metric) =>
-                m[metric.key] !== null &&
-                !(metric.zeroMissing && m[metric.key] <= 0),
-            ),
-        ).length;
         const size =
           sizeMetric && plotted.length ? sizeScale(plotted, sizeMetric) : null;
 
         $("note").textContent =
-          `${plotted.length} models shown, ${hidden - zeroOnLog} hidden: missing data` +
-          (zeroOnLog ? `, ${zeroOnLog} hidden: zero on a log axis.` : ".") +
+          `${plotted.length} models shown, ${hidden} hidden: missing data.` +
           (sizeMetric ? ` Marker size = ${sizeMetric.label}.` : "");
 
         const traces = providers

@@ -6,7 +6,7 @@ the data, and `index.html` draws it with [Plotly.js](https://plotly.com/javascri
 
 ## What it does
 
-- **Pick 2–4 metrics:** Intelligence Index, cost (blended $ per 1M tokens), output speed (tokens/s) and latency (time to
+- **Pick 2–4 metrics:** Intelligence Index, price (blended $ per 1M tokens), output speed (tokens/s) and latency (time to
   first answer token). Two metrics give a 2D scatter, three a 3D scatter, and a fourth sets the marker size.
 - **Intelligence is always vertical:** the y axis in 2D, the z axis in 3D.
 - **Rotate the 3D chart with the mouse.** It stays upright, so dragging cannot flip it over. Buttons jump to a default
@@ -14,7 +14,7 @@ the data, and `index.html` draws it with [Plotly.js](https://plotly.com/javascri
 - **Filter by provider or model:** provider checkboxes, plus a searchable model list with select all/none.
 - **Trend lines:** one best-fit line per provider with at least three plotted models, solid across its models and dashed for a projection past them.
   It is a straight-line extension, not a forecast.
-- **Log scale** per axis for cost, speed and latency. **Light and dark themes**, which follow your system setting and
+- **Log scale** per axis for price, speed and latency. **Light and dark themes**, which follow your system setting and
   remember your choice.
 
 ## Setup
@@ -48,8 +48,12 @@ the data, and `index.html` draws it with [Plotly.js](https://plotly.com/javascri
   [Data Platform Terms](https://artificialanalysiscdn.com/legal/ProDataPlatformTerms.pdf) do not allow publishing raw
   data files, so each user fetches their own copy.
 - Models missing a value for any active metric are left out of the chart and counted. The API reports 0 for output
-  speed and latency when it has no measurement, so those zeros are treated as missing. Zero cost is also dropped while
-  that axis is on a log scale.
+  price, speed and latency when it has no value (for example ChatGPT-only or retired models), so those zeros are
+  treated as missing.
+- **Price is not cost per task.** The price axis is the list price per 1M tokens, blended 3 parts input to 1 part
+  output. Models that write more tokens cost more per task than their price suggests: per Artificial Analysis, Claude
+  Opus 5.5 ($4/$20 per 1M) costs about $5.98 per Intelligence Index task, while GPT-6 Astra ($10/$50 per 1M) costs
+  about $3.26.
 - Per-task metrics (cost, time and output tokens per task) are not available in the free API, so they are not shown.
 
 ## Files
