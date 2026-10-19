@@ -7,16 +7,20 @@
     <style>
       :root {
         --page: #ffffff;
+        --panel: #f8fafc;
         --ink: #1f2937;
         --muted: #6b7280;
-        --border: #e5e7eb;
+        --border: #d9dee7;
+        --accent: #2563eb;
         color-scheme: light;
       }
       :root[data-theme="dark"] {
         --page: #0f172a;
+        --panel: #162033;
         --ink: #e2e8f0;
         --muted: #94a3b8;
-        --border: #1e293b;
+        --border: #2a3850;
+        --accent: #60a5fa;
         color-scheme: dark;
       }
       body {
@@ -24,70 +28,209 @@
         background: var(--page);
         color: var(--ink);
         font-family: system-ui, sans-serif;
+        font-size: 14px;
         display: flex;
         flex-direction: column;
         height: 100vh;
       }
-      main {
-        flex: 1;
-        display: flex;
-        min-height: 0;
+      button {
+        font: inherit;
+        font-size: 13px;
+        color: var(--ink);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 5px 12px;
+        cursor: pointer;
       }
-      aside {
-        width: 280px;
-        padding: 12px;
-        overflow-y: auto;
-        border-right: 1px solid var(--border);
-        font-size: 14px;
+      button:hover {
+        border-color: var(--accent);
       }
-      aside h3 {
-        margin: 14px 0 6px;
-        font-size: 14px;
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
       }
-      aside h3:first-child {
-        margin-top: 0;
+      input[type="checkbox"] {
+        accent-color: var(--accent);
+        margin: 0;
       }
       label {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
-      .log {
-        margin-left: 22px;
+      #topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 16px;
+        padding: 8px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .dropdown {
+        position: relative;
+      }
+      .dropdown > button::after {
+        content: "\25BE";
+        margin-left: 8px;
         color: var(--muted);
       }
-      #model-list {
-        max-height: 260px;
-        overflow-y: auto;
-        border: 1px solid var(--border);
-        padding: 4px;
-        margin-top: 6px;
-      }
-      #search {
-        width: 100%;
-        box-sizing: border-box;
-      }
-      #chart-area {
-        flex: 1;
+      .panel {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        z-index: 20;
+        min-width: 240px;
+        padding: 10px 12px;
         display: flex;
         flex-direction: column;
-        min-width: 0;
+        gap: 8px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        white-space: nowrap;
+      }
+      .panel[hidden] {
+        display: none;
+      }
+      .group-name {
+        margin: 4px 0 0;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .group-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .group-hint {
+        max-width: 280px;
+        margin: 0;
+        font-size: 12px;
+        white-space: normal;
+        color: var(--muted);
+      }
+      .group-hint[hidden] {
+        display: none;
+      }
+      .family {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .family-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .family-row label {
+        flex: 1;
+      }
+      .chevron {
+        width: 20px;
+        padding: 0;
+        border: none;
+        background: none;
+        color: var(--muted);
+      }
+      .levels {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-left: 40px;
+      }
+      .levels[hidden] {
+        display: none;
+      }
+      .levels label.empty {
+        color: var(--muted);
+        opacity: 0.6;
+      }
+      .nodata {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      label[hidden] {
+        display: none;
+      }
+      select {
+        font: inherit;
+        font-size: 13px;
+        color: var(--ink);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 2px 4px;
+      }
+      .swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .log {
+        margin: -4px 0 0 24px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .toggles {
+        display: flex;
+        gap: 16px;
+        color: var(--muted);
+      }
+      #views {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      #views[hidden] {
+        display: none;
+      }
+      .spacer {
+        flex: 1;
+      }
+      #plot[hidden] {
+        display: none;
+      }
+      #plot {
+        flex: 1;
+        min-height: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
       }
       #chart {
         flex: 1;
         min-height: 0;
       }
-      #toolbar {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        font-size: 13px;
+      /* Fixed key naming each axis: does not rotate with the 3D camera */
+      #key {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 2px 10px;
+        padding: 6px 10px;
+        font-size: 12px;
+        color: var(--ink);
+        background: color-mix(in srgb, var(--page) 85%, transparent);
+        border: 1px solid; /* colour set from the theme in renderKey */
+        border-radius: 6px;
+        pointer-events: none;
+      }
+      #key[hidden] {
+        display: none;
+      }
+      #key .name {
         color: var(--muted);
       }
       #note {
-        flex: 1;
-      }
-      #views[hidden] {
-        display: none;
+        padding: 6px 16px;
+        font-size: 13px;
+        color: var(--muted);
       }
       a {
         color: inherit;
@@ -98,7 +241,7 @@
         color: var(--muted);
       }
       footer {
-        padding: 6px 12px;
+        padding: 6px 16px;
         border-top: 1px solid var(--border);
         font-size: 13px;
         color: var(--muted);
@@ -106,36 +249,47 @@
     </style>
   </head>
   <body>
-    <main>
-      <aside>
-        <h3>Metrics</h3>
-        <div id="metrics"></div>
-        <label
-          ><input type="checkbox" id="labels" /> Show model names on
-          points</label
-        >
-        <label
-          ><input type="checkbox" id="trends" checked /> Show provider trend
-          lines (dashed = projection)</label
-        >
-        <h3>Providers</h3>
-        <div id="providers"></div>
-        <h3>Models</h3>
-        <input id="search" type="search" placeholder="Search models" />
-        <button id="select-all">Select all</button>
-        <button id="select-none">Select none</button>
-        <div id="model-list"></div>
-      </aside>
-      <div id="chart-area">
-        <div id="toolbar">
-          <span id="note"></span>
-          <span id="views"></span>
-          <button id="theme"></button>
-        </div>
-        <div id="chart"></div>
-        <div id="message" hidden>Pick at least two metrics.</div>
+    <header id="topbar">
+      <div class="dropdown">
+        <button type="button">Models</button>
+        <div class="panel" id="families" hidden></div>
       </div>
-    </main>
+      <div class="dropdown">
+        <button type="button">Axes</button>
+        <div class="panel" id="metrics" hidden></div>
+      </div>
+      <div class="toggles">
+        <label
+          >Labels
+          <select id="labels">
+            <option value="level">Effort level</option>
+            <option value="name">Model name</option>
+            <option value="none">None</option>
+          </select></label
+        >
+        <label
+          ><input type="checkbox" id="axis-titles" /> Rotating axis titles in
+          3D</label
+        >
+        <label><input type="checkbox" id="baseline" checked /> Baseline</label>
+        <label id="baseline-axis-label" hidden
+          >Baseline fitted to
+          <select id="baseline-axis"></select
+        ></label>
+        <label
+          ><input type="checkbox" id="distance" /> Distance to baseline</label
+        >
+      </div>
+      <span class="spacer"></span>
+      <span id="views"></span>
+      <button type="button" id="theme"></button>
+    </header>
+    <div id="plot">
+      <div id="chart"></div>
+      <div id="key" hidden></div>
+    </div>
+    <div id="message" hidden>Pick at least two metrics.</div>
+    <div id="note"></div>
     <footer>
       Data: <a href="https://artificialanalysis.ai/">Artificial Analysis</a> ·
       fetched <span id="fetched-at"></span>
@@ -146,49 +300,177 @@
       const METRICS = [
         {
           key: "intelligence",
+          short: "Intelligence",
           label: "Intelligence Index",
           on: true,
           canLog: false,
         },
         {
-          key: "cost_blended",
-          // List price, not cost per task: models that write more tokens cost more per task
-          label: "Price (blended $/1M tokens, 3:1 input:output)",
+          // From data/per_task.json: not in the free API
+          key: "cost_per_task",
+          short: "Cost",
+          label: "Cost per Task (USD)",
           on: true,
           canLog: true,
-          log: true,
+          log: false,
+          format: (v) => "$" + v.toFixed(2),
+          tick: { tickprefix: "$" },
+        },
+        {
+          // Reasoning + answer tokens: how much a model writes to do the task
+          key: "output_tokens_per_task",
+          short: "Tokens",
+          label: "Output Tokens per Task",
+          on: true,
+          canLog: true,
+          log: false,
+          format: (v) => v.toFixed(1) + "k tokens", // stored in thousands
+          tick: { ticksuffix: "k" },
+        },
+        {
+          // Output tokens / output speed; excludes time to first token
+          key: "time_per_task_min",
+          short: "Time",
+          label: "Time per Task (minutes)",
+          on: false,
+          canLog: true,
+          log: false,
+          format: (v) => v.toFixed(1) + " min",
+          tick: { ticksuffix: " min" },
+        },
+        {
+          key: "cost_blended",
+          short: "Price",
+          // List price, not cost per task: models that write more tokens cost more per task
+          label: "Price (blended $/1M tokens, 3:1 input:output)",
+          on: false,
+          canLog: true,
+          log: false,
           zeroMissing: true, // 0 = no API price (ChatGPT-only or retired models)
           format: (v) => "$" + v,
+          tick: { tickprefix: "$", ticksuffix: "/M" }, // tell apart from cost per task
         },
         {
           key: "speed_tps",
+          short: "Speed",
           label: "Output speed (tokens/s)",
           on: false,
           canLog: true,
           log: false,
           zeroMissing: true,
           format: (v) => v.toFixed(0) + " tok/s",
+          tick: { ticksuffix: " tok/s" },
         },
         {
           key: "ttfat_s",
+          short: "Latency",
           label: "Latency (time to first answer token, s)",
-          on: true,
+          on: false,
           canLog: true,
-          log: true,
+          log: false,
           zeroMissing: true,
           format: (v) => v.toFixed(1) + " s",
+          tick: { ticksuffix: " s" },
         },
       ];
-      const PALETTE = [
-        "#636efa",
-        "#ef553b",
-        "#00cc96",
-        "#ab63fa",
-        "#ffa15a",
-        "#19d3f3",
-        "#ff6692",
-        "#b6e880",
+      // Provider groups in the Models panel. The hint shows while a family in the group lacks data on the current axes
+      const GROUPS = [
+        { name: "Anthropic" },
+        { name: "OpenAI" },
+        {
+          name: "DeepSeek",
+          hint: "DeepSeek has no per-task cost or token data, so it is hidden on those axes. To compare it, pick the Price and Speed axes instead.",
+        },
       ];
+      // Model families: name patterns on model.name, one colour and one line each
+      const FAMILIES = [
+        {
+          name: "Opus 5.5",
+          group: "Anthropic",
+          pattern: /^Claude Opus 5\.5 /,
+          color: "#f97316",
+          on: true,
+        },
+        {
+          name: "Opus 5",
+          group: "Anthropic",
+          pattern: /^Claude Opus 5 \(/,
+          color: "#fbbf24",
+        },
+        {
+          name: "Fable 5.1",
+          group: "Anthropic",
+          pattern: /^Claude Fable 5\.1 /,
+          color: "#f472b6",
+        },
+        {
+          name: "Sonnet 5.5",
+          group: "Anthropic",
+          pattern: /^Claude Sonnet 5\.5 /,
+          color: "#06b6d4",
+          on: true,
+        },
+        {
+          name: "Haiku 5.5",
+          group: "Anthropic",
+          pattern: /^Claude Haiku 5\.5 /,
+          color: "#a3e635",
+          on: true,
+        },
+        {
+          name: "GPT-6 Luna",
+          group: "OpenAI",
+          pattern: /^GPT-6 Luna /,
+          color: "#4ade80",
+        },
+        {
+          name: "GPT-6 Sol",
+          group: "OpenAI",
+          pattern: /^GPT-6 Sol \((?!Daybreak)/,
+          color: "#3b82f6",
+          on: true,
+        },
+        {
+          name: "GPT-6.1 Sol",
+          group: "OpenAI",
+          pattern: /^GPT-6\.1 Sol /,
+          color: "#2dd4bf",
+          on: true,
+        },
+        {
+          name: "GPT-6 Astra",
+          group: "OpenAI",
+          pattern: /^GPT-6 Astra /,
+          color: "#a78bfa",
+          on: true,
+        },
+        {
+          name: "DeepSeek V4.1 Flash",
+          group: "DeepSeek",
+          pattern: /^DeepSeek V4\.1 Flash \(/,
+          color: "#ef4444",
+          on: true,
+        },
+        {
+          name: "DeepSeek V4.1 Flash 1017",
+          group: "DeepSeek",
+          pattern: /^DeepSeek V4\.1 Flash 1017 \(/,
+          color: "#facc15",
+          on: true,
+        },
+      ];
+      const EFFORTS = [
+        "Non-reasoning",
+        "Low",
+        "Medium",
+        "High",
+        "Xhigh",
+        "Max",
+      ];
+      const ANIMATION_MS = 250; // delay between levels as a family draws in
+      const BASELINE_COLOR = "#94a3b8"; // neutral on both themes
+      const BASELINE_NAME = "Baseline (fit across selected models)";
+      const CURVE_POINTS = 50; // baseline samples
 
       // S3 (light, shaded walls) and S2 (dark, faint grid)
       const THEMES = {
@@ -209,9 +491,7 @@
           walls: false,
         },
       };
-      let theme =
-        localStorage.getItem("theme") ||
-        (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      let theme = localStorage.getItem("theme") || "dark";
 
       // Camera presets, as (azimuth, elevation) in degrees around the vertical axis
       const DEFAULT_VIEW = { az: -45, el: 30 };
@@ -220,9 +500,7 @@
       const CAMERA_DISTANCE = 2.2;
 
       let models = [];
-      let providers = [];
-      const selectedProviders = new Set();
-      const selectedModels = new Set();
+      let dataNotice = "";
 
       const $ = (id) => document.getElementById(id);
 
@@ -255,121 +533,213 @@
         }
       }
 
-      function buildProviderControls() {
-        for (const provider of providers) {
-          selectedProviders.add(provider);
-          $("providers").append(
-            checkbox(provider, true, (checked) => {
-              checked
-                ? selectedProviders.add(provider)
-                : selectedProviders.delete(provider);
-              renderModelList();
-              render();
-            }),
-          );
+      // A family is ticked while any of its levels is
+      const ticked = (family) => family.levels.some((m) => m.on);
+
+      function setOpen(family, open) {
+        family.list.hidden = !open;
+        family.chevron.textContent = open ? "\u25BE" : "\u25B8";
+        family.chevron.setAttribute("aria-expanded", open);
+      }
+
+      // One heading per provider, then one row per family (chevron, checkbox, swatch) with its effort levels underneath
+      function buildFamilyControls() {
+        for (const g of GROUPS) {
+          const title = document.createElement("h4");
+          title.className = "group-name";
+          title.textContent = g.name;
+          g.body = document.createElement("div");
+          g.body.className = "group-body";
+          $("families").append(title);
+          if (g.hint) {
+            g.note = document.createElement("p");
+            g.note.className = "group-hint";
+            g.note.textContent = g.hint;
+            $("families").append(g.note);
+          }
+          $("families").append(g.body);
         }
-      }
-
-      function listedModels() {
-        const search = $("search").value.toLowerCase();
-        return models.filter(
-          (m) =>
-            selectedProviders.has(m.provider) &&
-            m.name.toLowerCase().includes(search),
-        );
-      }
-
-      function renderModelList() {
-        $("model-list").replaceChildren(
-          ...listedModels().map((m) =>
-            checkbox(m.name, selectedModels.has(m.id), (checked) => {
-              checked ? selectedModels.add(m.id) : selectedModels.delete(m.id);
-              render();
-            }),
-          ),
-        );
-      }
-
-      function setListed(selected) {
-        for (const m of listedModels())
-          selected ? selectedModels.add(m.id) : selectedModels.delete(m.id);
-        renderModelList();
-        render();
-      }
-
-      const PROJECT_BY = 0.5; // extend the trend by half its length past the models
-
-      // Best-fit line through one provider's points (first principal component, in
-      // log space for log axes, each axis scaled by its spread). Returns a solid part
-      // spanning the models and a dashed part projecting towards the vertical axis' high end.
-      function trendLine(points, axes) {
-        if (points.length < 3) return null;
-        const tf = axes.map((a) => (v) => (a.log ? Math.log10(v) : v));
-        const rows = points.map((m) => axes.map((a, i) => tf[i](m[a.key])));
-        const n = axes.length;
-        const mean = [...Array(n)].map(
-          (_, i) => rows.reduce((s, r) => s + r[i], 0) / rows.length,
-        );
-        const sd = mean.map(
-          (mu, i) =>
-            Math.sqrt(
-              rows.reduce((s, r) => s + (r[i] - mu) ** 2, 0) / rows.length,
-            ) || 1,
-        );
-        const z = rows.map((r) => r.map((v, i) => (v - mean[i]) / sd[i]));
-        const cov = mean.map((_, i) =>
-          mean.map((_, j) => z.reduce((s, r) => s + r[i] * r[j], 0) / z.length),
-        );
-        // Power iteration for the main direction, seeded from the largest covariance
-        // column (a fixed seed like [1, 1] can be orthogonal to it and collapse to zero)
-        let dir = cov.reduce((best, col) =>
-          Math.hypot(...col) > Math.hypot(...best) ? col : best,
-        );
-        if (!Math.hypot(...dir)) return null; // every point is identical
-        for (let k = 0; k < 50; k++) {
-          const next = cov.map((row) =>
-            row.reduce((s, c, j) => s + c * dir[j], 0),
-          );
-          const len = Math.hypot(...next) || 1;
-          dir = next.map((v) => v / len);
-        }
-        if (dir[n - 1] < 0) dir = dir.map((v) => -v); // point up the vertical axis
-        const along = z.map((r) => r.reduce((s, v, i) => s + v * dir[i], 0));
-        const lo = Math.min(...along);
-        const hi = Math.max(...along);
-        const toPoint = (s) =>
-          dir.map((d, i) => {
-            const v = mean[i] + s * d * sd[i];
-            return axes[i].log ? 10 ** v : v;
+        for (const family of FAMILIES) {
+          const label = checkbox(family.name, false, (checked) => {
+            const wasTicked = ticked(family);
+            for (const m of family.levels) m.on = checked;
+            if (checked) {
+              setOpen(family, true);
+              // From part-ticked, add the rest without redrawing from zero
+              wasTicked ? render() : showFamily(family);
+            } else hideFamily(family);
+            updateLevelControls();
           });
-        return {
-          solid: [toPoint(lo), toPoint(hi)],
-          dashed: [toPoint(hi), toPoint(hi + PROJECT_BY * (hi - lo))],
+          const swatch = document.createElement("span");
+          swatch.className = "swatch";
+          swatch.style.background = family.color;
+          label.firstChild.after(swatch);
+          family.input = label.querySelector("input");
+
+          family.chevron = document.createElement("button");
+          family.chevron.type = "button";
+          family.chevron.className = "chevron";
+          family.chevron.setAttribute(
+            "aria-label",
+            `${family.name} effort levels`,
+          );
+          family.chevron.addEventListener("click", () =>
+            setOpen(family, family.list.hidden),
+          );
+          const row = document.createElement("div");
+          row.className = "family-row";
+          row.append(family.chevron, label);
+
+          family.list = document.createElement("div");
+          family.list.className = "levels";
+          family.rows = family.levels.map((model) => {
+            const level = checkbox(levelOf(model), model.on, (checked) => {
+              const wasTicked = ticked(family);
+              model.on = checked;
+              if (!ticked(family)) hideFamily(family);
+              else if (!wasTicked) showFamily(family);
+              else render();
+            });
+            const note = document.createElement("span");
+            note.className = "nodata";
+            level.append(note);
+            family.list.append(level);
+            return { model, level, note, input: level.querySelector("input") };
+          });
+          setOpen(family, false);
+
+          const group = document.createElement("div");
+          group.className = "family";
+          group.append(row, family.list);
+          GROUPS.find((g) => g.name === family.group).body.append(group);
+        }
+        updateLevelControls();
+      }
+
+      // Syncs the ticks with the model selection, and greys levels with no data on the current axes
+      function updateLevelControls() {
+        for (const family of FAMILIES) {
+          const on = family.levels.filter((m) => m.on).length;
+          family.input.checked = on === family.levels.length && on > 0;
+          family.input.indeterminate = on > 0 && on < family.levels.length;
+          for (const { model, level, note, input } of family.rows) {
+            input.checked = model.on;
+            const empty = !hasData(model);
+            level.classList.toggle("empty", empty);
+            note.textContent = empty ? "no data" : "";
+          }
+        }
+        for (const g of GROUPS) {
+          if (!g.note) continue;
+          const members = FAMILIES.filter((f) => f.group === g.name);
+          g.note.hidden = !members.some((f) => !f.levels.some(hasData));
+        }
+      }
+
+      // Dropdown panels open on click and close on an outside click or Escape
+      function setupDropdowns() {
+        const dropdowns = document.querySelectorAll(".dropdown");
+        const closeOthers = (keep) => {
+          for (const d of dropdowns)
+            if (d !== keep) d.querySelector(".panel").hidden = true;
         };
+        for (const d of dropdowns) {
+          d.querySelector("button").addEventListener("click", () => {
+            const panel = d.querySelector(".panel");
+            closeOthers(d);
+            panel.hidden = !panel.hidden;
+          });
+        }
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest(".dropdown")) closeOthers(null);
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeOthers(null);
+        });
+      }
+
+      // Effort level is the text in the parentheses, before the first comma
+      function levelOf(model) {
+        return model.name.match(/\(([^,)]+)/)[1];
+      }
+
+      // Each family gets levels (its models in effort order) and shown (levels drawn so far).
+      // Each model gets on: whether its level is selected (all of a ticked family by default).
+      function groupFamilies() {
+        for (const family of FAMILIES) {
+          family.levels = models
+            .filter((m) => family.pattern.test(m.name))
+            .sort(
+              (a, b) =>
+                EFFORTS.indexOf(levelOf(a)) - EFFORTS.indexOf(levelOf(b)),
+            );
+          family.shown = 0;
+          for (const m of family.levels) m.on = !!family.on;
+        }
+      }
+
+      // Has a value for every active metric
+      const hasData = (m) =>
+        METRICS.filter((x) => x.on).every((x) => hasValue(m, x));
+      const isVisible = (m) => m.on && hasData(m);
+
+      // Draws the family's selected levels with data one at a time, lowest effort first.
+      // Restarting cancels any animation still running for the same family.
+      function showFamily(family, delay = 0) {
+        clearTimeout(family.timer);
+        family.shown = 0;
+        const step = () => {
+          do family.shown++;
+          while (
+            family.shown < family.levels.length &&
+            !isVisible(family.levels[family.shown - 1])
+          );
+          // Nothing left to draw after this level: skip the trailing unselected ones
+          if (!family.levels.slice(family.shown).some(isVisible))
+            family.shown = family.levels.length;
+          render();
+          if (family.shown < family.levels.length)
+            family.timer = setTimeout(step, ANIMATION_MS);
+        };
+        family.timer = setTimeout(step, delay);
+      }
+
+      function hideFamily(family) {
+        clearTimeout(family.timer);
+        family.shown = 0;
+        render();
       }
 
       function hasValue(model, metric) {
         const value = model[metric.key];
-        if (value === null) return false;
+        if (value == null) return false;
         return !(metric.zeroMissing && value <= 0);
       }
 
-      function hoverText(model) {
-        const lines = [
-          `<b>${model.name}</b>`,
-          model.provider,
-          "Released " + (model.release_date || "n/a"),
-        ];
+      // Plotly turns uids into CSS class names, so keep them to word characters
+      const uidOf = (family) => family.name.replace(/\W/g, "_");
+
+      // Signed index points, e.g. "+3.1" or "−2.4"
+      function signed(value) {
+        const r = Math.round(value * 10) / 10; // so -0.04 prints 0.0, not −0.0
+        return (r < 0 ? "\u2212" : "+") + Math.abs(r).toFixed(1);
+      }
+
+      // residual (optional): distance above the baseline, shown when given
+      function hoverText(model, residual) {
+        const lines = [`<b>${model.name}</b>`, "Level: " + levelOf(model)];
         for (const metric of METRICS) {
           const value = model[metric.key];
           const shown =
-            value === null || (metric.zeroMissing && value <= 0)
+            value == null || (metric.zeroMissing && value <= 0)
               ? "n/a"
               : metric.format
                 ? metric.format(value)
                 : value;
           lines.push(`${metric.label.split(" (")[0]}: ${shown}`);
         }
+        if (residual !== undefined)
+          lines.push("Intelligence vs baseline: " + signed(residual));
         return lines.join("<br>");
       }
 
@@ -382,18 +752,185 @@
         return (m) => 6 + (20 * (scale(m[metric.key]) - min)) / range;
       }
 
-      function axisLayout(metric, is3d) {
+      // Largest of 1, 2, 5, 10 x 10^k that is at most the wanted step
+      function niceStep(wanted) {
+        const power = 10 ** Math.floor(Math.log10(wanted));
+        const steps = [10, 5, 2, 1].map((s) => s * power);
+        return steps.find((s) => s <= wanted * 1.0001);
+      }
+
+      // Range and tick step for the plotted values, or {} to let Plotly choose
+      function scaleFor(metric, models) {
+        const values = models.map((m) => m[metric.key]);
+        if (!values.length) return {};
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        if (metric.key === "intelligence") {
+          // Multiples of 5 around the data, with a little padding
+          return {
+            range: [
+              Math.floor((min - 2) / 5) * 5,
+              Math.ceil((max + 2) / 5) * 5,
+            ],
+            dtick: 5,
+          };
+        }
+        if (metric.log) {
+          const lo = Math.log10(min);
+          const hi = Math.log10(max);
+          const pad = 0.1 * (hi - lo) || 0.3;
+          return { range: [lo - pad, hi + pad], dtick: 1 }; // label 0.1, 1, 10, 100 only
+        }
+        const top = max * 1.15;
+        return { range: [0, top], dtick: niceStep(top / 8) }; // 8 or more ticks
+      }
+
+      // Least squares fit of intelligence = a + b*log10(x) over the points.
+      // Returns a function of the raw horizontal values, or null when the points do not
+      // pin down the fit (too few, or all the same x).
+      function fitBaseline(points, horizontal, vertical) {
+        const n = horizontal.length + 1;
+        const rows = points.map((m) => [
+          1,
+          ...horizontal.map((a) => Math.log10(m[a.key])),
+        ]);
+        const dot = (i, values) =>
+          rows.reduce((sum, row, k) => sum + row[i] * values[k], 0);
+        // Normal equations as an augmented matrix, solved by Gauss-Jordan
+        const heights = points.map((m) => m[vertical.key]);
+        const aug = Array.from({ length: n }, (_, i) => [
+          ...Array.from({ length: n }, (_, j) =>
+            dot(
+              i,
+              rows.map((r) => r[j]),
+            ),
+          ),
+          dot(i, heights),
+        ]);
+        for (let i = 0; i < n; i++) {
+          let pivot = i;
+          for (let r = i + 1; r < n; r++)
+            if (Math.abs(aug[r][i]) > Math.abs(aug[pivot][i])) pivot = r;
+          if (Math.abs(aug[pivot][i]) < 1e-9) return null;
+          [aug[i], aug[pivot]] = [aug[pivot], aug[i]];
+          for (let r = 0; r < n; r++) {
+            if (r === i) continue;
+            const factor = aug[r][i] / aug[i][i];
+            aug[r] = aug[r].map((v, c) => v - factor * aug[i][c]);
+          }
+        }
+        const coef = aug.map((row, i) => row[n] / row[i]);
+        return (values) =>
+          values.reduce(
+            (sum, v, i) => sum + coef[i + 1] * Math.log10(v),
+            coef[0],
+          );
+      }
+
+      // Raw values spread evenly across the axis range, as drawn (log axes in log steps)
+      function axisSamples(metric, models, count) {
+        const [lo, hi] = scaleFor(metric, models).range;
+        const start = metric.log || lo ? lo : hi / count; // log10(0) is undefined
+        return Array.from({ length: count }, (_, i) => {
+          const v = start + ((hi - start) * i) / (count - 1);
+          return metric.log ? 10 ** v : v;
+        });
+      }
+
+      const median = (values) => {
+        const sorted = [...values].sort((a, b) => a - b);
+        const mid = sorted.length >> 1;
+        return sorted.length % 2
+          ? sorted[mid]
+          : (sorted[mid - 1] + sorted[mid]) / 2;
+      };
+
+      // Dashed line across the fitted axis range. In 3D the other horizontal axis stays at anchor.
+      function baselineTrace(baseline, horizontal, fitAxis, anchor, models) {
+        const dims = ["x", "y", "z"].slice(0, horizontal.length + 1);
+        const fitted = axisSamples(fitAxis, models, CURVE_POINTS);
+        const columns = [
+          ...horizontal.map((a) =>
+            a === fitAxis ? fitted : fitted.map(() => anchor[a.key]),
+          ),
+          fitted.map((v) => baseline([v])),
+        ];
+        const trace = {
+          type: dims.length === 3 ? "scatter3d" : "scatter",
+          mode: "lines",
+          name: BASELINE_NAME,
+          uid: "baseline",
+          showlegend: true,
+          hoverinfo: "skip",
+          line: { color: BASELINE_COLOR, dash: "dash", width: 2 },
+        };
+        dims.forEach((d, i) => (trace[d] = columns[i]));
+        return trace;
+      }
+
+      // Index points a model sits above (+) or below (-) the baseline
+      function residualOf(model, fitAxis, baseline) {
+        return model.intelligence - baseline([model[fitAxis.key]]);
+      }
+
+      // Dotted segments from each point to its point on the baseline (same fitted-axis value),
+      // labelled with the residual. In 3D the segment runs diagonally when the other horizontal
+      // axis differs from the anchor, so its length is not the residual.
+      function distanceTrace(
+        family,
+        points,
+        horizontal,
+        fitAxis,
+        anchor,
+        baseline,
+      ) {
+        const dims = ["x", "y", "z"].slice(0, horizontal.length + 1);
+        const trace = {
+          type: dims.length === 3 ? "scatter3d" : "scatter",
+          mode: "lines+text",
+          uid: uidOf(family) + "_distance",
+          showlegend: false,
+          hoverinfo: "skip",
+          line: { color: family.color, dash: "dot", width: 1.5 },
+          textfont: { color: family.color, size: 11 },
+          textposition: "middle right",
+          text: [],
+        };
+        for (const d of dims) trace[d] = [];
+        for (const m of points) {
+          const start = [...horizontal.map((a) => m[a.key]), m.intelligence];
+          const end = [
+            ...horizontal.map((a) =>
+              a === fitAxis ? m[a.key] : anchor[a.key],
+            ),
+            baseline([m[fitAxis.key]]),
+          ];
+          // null breaks the line between segments; only the point end is labelled
+          dims.forEach((d, i) => trace[d].push(start[i], end[i], null));
+          trace.text.push(signed(residualOf(m, fitAxis, baseline)), "", "");
+        }
+        return trace;
+      }
+
+      function axisLayout(metric, is3d, models) {
         const t = THEMES[theme];
         return {
-          title: metric.label,
+          ...scaleFor(metric, models),
+          // 3D titles rotate with the camera: the pinned key names the axes instead
+          title: is3d && !$("axis-titles").checked ? "" : titleOf(metric),
           type: metric.log ? "log" : "linear",
-          dtick: metric.log ? 1 : undefined, // log axes: label 0.1, 1, 10, 100 only
           gridcolor: t.grid,
           zerolinecolor: t.line,
           linecolor: t.line,
           showline: true,
           showspikes: false,
-          ...(is3d && { showbackground: t.walls, backgroundcolor: t.wall }),
+          // Units on the ticks tell the 3D axes apart without rotating titles
+          ...metric.tick,
+          ...(is3d && {
+            showbackground: t.walls,
+            backgroundcolor: t.wall,
+            tickfont: { size: 11 },
+          }),
         };
       }
 
@@ -431,7 +968,7 @@
 
       // Buttons for the default 3D view and one side-on view per pair of axes
       function renderViews(axes) {
-        const short = (m) => m.label.split(" (")[0];
+        const short = (m) => m.short;
         const views = [
           ["Reset 3D", DEFAULT_VIEW],
           [`${short(axes[2])} vs ${short(axes[0])}`, { az: -90, el: 0 }],
@@ -450,6 +987,33 @@
         );
       }
 
+      // Axis title, with the scale added so it stays right when log is toggled
+      function titleOf(metric) {
+        return metric.log
+          ? metric.label.replace(/\)$/, ", log scale)")
+          : metric.label;
+      }
+
+      // Fixed key for 3D: one row per axis, so the names stay readable while rotating
+      function renderKey(axes, sizeMetric) {
+        const rows = axes.slice(0, 2).map((m, i) => [["X", "Y"][i], m]);
+        rows.push(["Vertical", axes[axes.length - 1]]);
+        if (sizeMetric) rows.push(["Size", sizeMetric]);
+        const cell = (text, className) => {
+          const span = document.createElement("span");
+          span.className = className;
+          span.textContent = text;
+          return span;
+        };
+        $("key").style.borderColor = THEMES[theme].line;
+        $("key").replaceChildren(
+          ...rows.flatMap(([name, m]) => [
+            cell(name, "name"),
+            cell(titleOf(m), ""),
+          ]),
+        );
+      }
+
       function applyTheme() {
         document.documentElement.dataset.theme = theme;
         $("theme").textContent = theme === "dark" ? "Light mode" : "Dark mode";
@@ -457,8 +1021,9 @@
 
       function render() {
         const active = METRICS.filter((m) => m.on);
+        updateLevelControls();
         $("message").hidden = active.length >= 2;
-        $("chart").hidden = active.length < 2;
+        $("plot").hidden = active.length < 2;
         $("views").hidden = active.length !== 3 && active.length !== 4;
         if (active.length < 2) {
           $("note").textContent = "";
@@ -475,67 +1040,122 @@
         const sizeMetric = others[flatCount];
         const is3d = axes.length === 3;
 
-        const candidates = models.filter(
-          (m) => selectedProviders.has(m.provider) && selectedModels.has(m.id),
-        );
-        const plotted = candidates.filter((m) =>
-          active.every((metric) => hasValue(m, metric)),
-        );
-        const hidden = candidates.length - plotted.length;
+        // Selected levels that have a value for every active metric.
+        // Scales and sizes use all of them so they stay put while a family draws in.
+        const levels = FAMILIES.flatMap((f) => f.levels.filter((m) => m.on));
+        const plotted = levels.filter(hasData);
         const size =
           sizeMetric && plotted.length ? sizeScale(plotted, sizeMetric) : null;
 
-        $("note").textContent =
-          `${plotted.length} models shown, ${hidden} hidden: missing data.` +
-          (sizeMetric ? ` Marker size = ${sizeMetric.label}.` : "");
+        let note =
+          `${plotted.length} of ${levels.length} levels have data for these axes.` +
+          (sizeMetric ? ` Marker size = ${sizeMetric.label}.` : "") +
+          dataNotice;
 
-        const traces = providers
-          .filter((p) => selectedProviders.has(p))
-          .flatMap((provider) => {
-            const points = plotted.filter((m) => m.provider === provider);
-            const color = PALETTE[providers.indexOf(provider) % PALETTE.length];
-            const trace = {
-              type: is3d ? "scatter3d" : "scatter",
-              mode: $("labels").checked ? "markers+text" : "markers",
-              name: provider,
-              uid: provider,
-              legendgroup: provider,
-              x: points.map((m) => m[axes[0].key]),
-              y: points.map((m) => m[axes[1].key]),
-              text: points.map((m) => m.name),
-              textposition: "top center",
-              hovertext: points.map(hoverText),
-              hoverinfo: "text",
-              marker: {
-                color,
-                size: size ? points.map(size) : 8,
-                opacity: 0.85,
-              },
-            };
-            if (is3d) trace.z = points.map((m) => m[axes[2].key]);
+        // Levels drawn so far: the baseline is fitted to these, so it grows with the animation
+        const drawn = FAMILIES.map((family) => ({
+          family,
+          points: family.levels.slice(0, family.shown).filter(isVisible),
+        })).filter((d) => d.points.length);
+        const horizontal = axes.slice(0, -1);
+        // The baseline is a one-variable fit: in 3D the user picks which horizontal axis
+        const select = $("baseline-axis");
+        const keys = horizontal.map((a) => a.key).join();
+        if (select.dataset.keys !== keys) {
+          select.replaceChildren(
+            ...horizontal.map((a) => new Option(a.label.split(" (")[0], a.key)),
+          );
+          select.dataset.keys = keys;
+        }
+        const fitAxis =
+          horizontal.find((a) => a.key === select.value) || horizontal[0];
+        select.value = fitAxis.key;
+        $("baseline-axis-label").hidden =
+          !is3d || !vertical || !$("baseline").checked;
+        // The other horizontal axis is held at its median over the plotted models
+        const anchor = Object.fromEntries(
+          horizontal.map((a) => [a.key, median(plotted.map((m) => m[a.key]))]),
+        );
+        let baseline = null;
+        if ($("baseline").checked) {
+          if (!vertical) note += " Baseline needs the Intelligence Index axis.";
+          else {
+            const fitted = drawn.flatMap((d) => d.points);
+            // With only as many points as fit terms, the fit passes through every point
+            baseline =
+              fitted.length > 2 && fitBaseline(fitted, [fitAxis], vertical);
+            if (!baseline)
+              note +=
+                " Baseline needs 3+ drawn points with varying values on the fitted axis.";
+          }
+        }
+        const distances = baseline && $("distance").checked;
+        if (baseline && is3d) {
+          const other = horizontal.find((a) => a !== fitAxis);
+          const held = other.format
+            ? other.format(anchor[other.key])
+            : anchor[other.key];
+          note += ` Baseline fits Intelligence to ${fitAxis.label.split(" (")[0]} only, drawn with ${other.label.split(" (")[0]} held at the median of the plotted models (${held}).`;
+        }
+        if (distances)
+          note += is3d
+            ? " Distance labels are Intelligence Index differences from the baseline at the same value of the fitted axis; the dotted line also spans the other axis, so its drawn length is not that number."
+            : " Distance labels are vertical Intelligence Index differences from the baseline.";
+        $("note").textContent = note;
 
-            const trend = $("trends").checked && trendLine(points, axes);
-            if (!trend) return [trace];
-            const lines = [
-              ["solid", trend.solid],
-              ["dash", trend.dashed],
-            ].map(([dash, ends]) => {
-              const line = {
-                type: trace.type,
-                mode: "lines",
-                uid: `${provider}-${dash}`,
-                legendgroup: provider, // hidden together with the provider's dots
-                showlegend: false,
-                hoverinfo: "skip",
-                line: { color, width: is3d ? 5 : 2, dash },
-                x: ends.map((p) => p[0]),
-                y: ends.map((p) => p[1]),
-              };
-              if (is3d) line.z = ends.map((p) => p[2]);
-              return line;
-            });
-            return [trace, ...lines];
-          });
+        const traces = drawn.flatMap(({ family, points }) => {
+          const trace = {
+            type: is3d ? "scatter3d" : "scatter",
+            mode:
+              $("labels").value === "none"
+                ? "lines+markers"
+                : "lines+markers+text",
+            name: family.name,
+            uid: uidOf(family),
+            x: points.map((m) => m[axes[0].key]),
+            y: points.map((m) => m[axes[1].key]),
+            text: points.map((m) =>
+              $("labels").value === "name" ? m.name : levelOf(m),
+            ),
+            textposition: "top center",
+            textfont: { color: family.color, size: 11 },
+            hovertext: points.map((m) =>
+              hoverText(
+                m,
+                distances ? residualOf(m, fitAxis, baseline) : undefined,
+              ),
+            ),
+            hoverinfo: "text",
+            line: { color: family.color, width: is3d ? 5 : 2.5 },
+            marker: {
+              color: family.color,
+              size: size ? points.map(size) : 9,
+              opacity: 0.95,
+            },
+          };
+          if (is3d) trace.z = points.map((m) => m[axes[2].key]);
+          return distances
+            ? [
+                distanceTrace(
+                  family,
+                  points,
+                  horizontal,
+                  fitAxis,
+                  anchor,
+                  baseline,
+                ),
+                trace,
+              ]
+            : [trace];
+        });
+        if (baseline)
+          traces.push(
+            baselineTrace(baseline, horizontal, fitAxis, anchor, plotted),
+          );
+
+        // 2D titles do not rotate, so the key is only needed in 3D
+        $("key").hidden = !is3d;
+        if (is3d) renderKey(axes, sizeMetric);
 
         const t = THEMES[theme];
         const layout = {
@@ -543,8 +1163,15 @@
           uirevision: axes
             .map((m) => `${m.key}:${m.log ? "log" : "linear"}`)
             .join("|"),
-          margin: { t: 10, r: 10, b: 40, l: 50 },
-          legend: { title: { text: "Provider" } },
+          margin: { t: 40, r: 20, b: 50, l: 70 },
+          // Right-aligned so it clears the pinned 3D key on the left
+          legend: {
+            orientation: "h",
+            x: 1,
+            xanchor: "right",
+            y: 1.02,
+            yanchor: "bottom",
+          },
           paper_bgcolor: t.page,
           plot_bgcolor: t.walls ? t.wall : t.page,
           font: { color: t.ink },
@@ -554,13 +1181,13 @@
           layout.scene = {
             dragmode: "turntable",
             camera: cameraAt(DEFAULT_VIEW),
-            xaxis: axisLayout(axes[0], true),
-            yaxis: axisLayout(axes[1], true),
-            zaxis: axisLayout(axes[2], true),
+            xaxis: axisLayout(axes[0], true, plotted),
+            yaxis: axisLayout(axes[1], true, plotted),
+            zaxis: axisLayout(axes[2], true, plotted),
           };
         } else {
-          layout.xaxis = axisLayout(axes[0]);
-          layout.yaxis = axisLayout(axes[1]);
+          layout.xaxis = axisLayout(axes[0], false, plotted);
+          layout.yaxis = axisLayout(axes[1], false, plotted);
         }
         Plotly.react("chart", traces, layout, {
           responsive: true,
@@ -569,9 +1196,10 @@
       }
 
       async function main() {
-        const response = await fetch("data/models.json");
+        // no-store: python -m http.server sends no cache headers, so edited data files can come back stale
+        const response = await fetch("data/models.json", { cache: "no-store" });
         if (!response.ok) {
-          $("chart").hidden = true;
+          $("plot").hidden = true;
           $("message").hidden = false;
           $("message").textContent =
             "No data yet. Run python fetch_data.py to create data/models.json, then reload.";
@@ -579,18 +1207,50 @@
         }
         const data = await response.json();
         models = data.models;
-        providers = [...new Set(models.map((m) => m.provider))].sort();
-        models.forEach((m) => selectedModels.add(m.id));
+        // Per-task cost and time are entered by hand; the page still works without them
+        const perTask = await fetch("data/per_task.json", { cache: "no-store" });
+        if (perTask.ok) {
+          const extra = await perTask.json();
+          for (const m of models) {
+            const row = extra.models[m.id];
+            if (row) {
+              m.cost_per_task = row.cost_per_task;
+              m.time_per_task_min = row.time_per_task_min;
+              // Thousands, so the axis ticks read 20k, 40k rather than 20000
+              m.output_tokens_per_task =
+                row.output_tokens_per_task == null
+                  ? null
+                  : row.output_tokens_per_task / 1000;
+            }
+          }
+        }
+        // Per-task measurements are a separate local file, not part of the free API.
+        // Keep the requested defaults when available; otherwise show a usable API-only chart.
+        if (
+          !models.some(
+            (m) => m.cost_per_task != null && m.output_tokens_per_task != null,
+          )
+        ) {
+          METRICS.find((m) => m.key === "cost_per_task").on = false;
+          METRICS.find((m) => m.key === "output_tokens_per_task").on = false;
+          METRICS.find((m) => m.key === "cost_blended").on = true;
+          dataNotice =
+            " Per-task data is unavailable here; showing Intelligence and API Price instead.";
+        }
+        groupFamilies();
         $("fetched-at").textContent = data.fetched_at;
 
         buildMetricControls();
-        buildProviderControls();
-        renderModelList();
-        $("search").addEventListener("input", renderModelList);
-        $("select-all").addEventListener("click", () => setListed(true));
-        $("select-none").addEventListener("click", () => setListed(false));
+        buildFamilyControls();
+        setupDropdowns();
         $("labels").addEventListener("change", render);
-        $("trends").addEventListener("change", render);
+        $("axis-titles").addEventListener("change", render);
+        $("baseline").addEventListener("change", () => {
+          $("distance").disabled = !$("baseline").checked;
+          render();
+        });
+        $("distance").addEventListener("change", render);
+        $("baseline-axis").addEventListener("change", render);
         $("theme").addEventListener("click", () => {
           theme = theme === "dark" ? "light" : "dark";
           localStorage.setItem("theme", theme);
@@ -599,6 +1259,12 @@
         });
         applyTheme();
         render();
+        // Draw the default families in turn, each one after the previous has finished
+        let delay = 0;
+        for (const family of FAMILIES.filter(ticked)) {
+          showFamily(family, delay);
+          delay += family.levels.filter(isVisible).length * ANIMATION_MS;
+        }
         $("chart").on("plotly_relayout", clampCamera);
       }
 

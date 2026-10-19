@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <style>
+    .f{font-family:'Play','Trebuchet MS','Segoe UI',system-ui,sans-serif}
+    .sh{filter:drop-shadow(2px 2px 4px rgba(0,0,0,.8))}
+    .lbl{font-size:34px;letter-spacing:3px;fill:#e6edf3}
+    .sub{font-size:23px;fill:rgba(230,237,243,0.55)}
+    .wire{fill:none;stroke:rgba(230,237,243,0.28);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .syn{stroke:rgba(230,237,243,0.30);stroke-width:2}
+    .neuron{fill:#0d1117;stroke:#e6edf3;stroke-width:3}
+    .axis{fill:none;stroke:#e6edf3;stroke-width:4;stroke-linecap:round}
+  </style>
+
+  <defs>
+    <marker id="a-grey" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="rgba(230,237,243,0.55)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="a-white" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1920" height="1080" rx="24" fill="#0d1117"/>
+
+  <text class="f sh" x="960" y="90" style="fill:#e6edf3" text-anchor="middle" dominant-baseline="central" font-size="44" letter-spacing="6">TOKEN EFFICIENCY VS COST EFFICIENCY</text>
+  <!-- tokens chart -->
+  <path class="axis" d="M 470 450 L 470 200" marker-end="url(#a-white)"/>
+  <path class="axis" d="M 470 450 L 830 450" marker-end="url(#a-white)"/>
+  <path d="M 490 430 L 521 406 L 577 346 L 645 294 L 722 262 L 800 254" fill="none" stroke="#a371f7" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="490" cy="430" r="8" fill="#a371f7"/>
+  <circle cx="521" cy="406" r="8" fill="#a371f7"/>
+  <circle cx="577" cy="346" r="8" fill="#a371f7"/>
+  <circle cx="645" cy="294" r="8" fill="#a371f7"/>
+  <circle cx="722" cy="262" r="8" fill="#a371f7"/>
+  <circle cx="800" cy="254" r="8" fill="#a371f7"/>
+  <text class="f sh lbl" x="650.0" y="500" text-anchor="middle" dominant-baseline="central">TOKENS</text>
+  <text class="f sub" x="442" y="325.0" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 442 325.0)">intelligence</text>
+  <!-- cost chart -->
+  <path class="axis" d="M 1090 450 L 1090 200" marker-end="url(#a-white)"/>
+  <path class="axis" d="M 1090 450 L 1450 450" marker-end="url(#a-white)"/>
+  <path d="M 1110 430 L 1141 406 L 1197 346 L 1265 294 L 1342 262 L 1420 254" fill="none" stroke="#3fb950" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1110" cy="430" r="8" fill="#3fb950"/>
+  <circle cx="1141" cy="406" r="8" fill="#3fb950"/>
+  <circle cx="1197" cy="346" r="8" fill="#3fb950"/>
+  <circle cx="1265" cy="294" r="8" fill="#3fb950"/>
+  <circle cx="1342" cy="262" r="8" fill="#3fb950"/>
+  <circle cx="1420" cy="254" r="8" fill="#3fb950"/>
+  <text class="f sh lbl" x="1270.0" y="500" text-anchor="middle" dominant-baseline="central">COST</text>
+  <text class="f sub" x="1062" y="325.0" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 1062 325.0)">intelligence</text>
+  <!-- model -->
+  <g>
+    <line class="syn" x1="850" y1="665" x2="905" y2="665"/>
+    <line class="syn" x1="850" y1="665" x2="905" y2="720"/>
+    <line class="syn" x1="850" y1="665" x2="905" y2="775"/>
+    <line class="syn" x1="850" y1="702" x2="905" y2="665"/>
+    <line class="syn" x1="850" y1="702" x2="905" y2="720"/>
+    <line class="syn" x1="850" y1="702" x2="905" y2="775"/>
+    <line class="syn" x1="850" y1="738" x2="905" y2="665"/>
+    <line class="syn" x1="850" y1="738" x2="905" y2="720"/>
+    <line class="syn" x1="850" y1="738" x2="905" y2="775"/>
+    <line class="syn" x1="850" y1="775" x2="905" y2="665"/>
+    <line class="syn" x1="850" y1="775" x2="905" y2="720"/>
+    <line class="syn" x1="850" y1="775" x2="905" y2="775"/>
+    <line class="syn" x1="905" y1="665" x2="960" y2="665"/>
+    <line class="syn" x1="905" y1="665" x2="960" y2="702"/>
+    <line class="syn" x1="905" y1="665" x2="960" y2="738"/>
+    <line class="syn" x1="905" y1="665" x2="960" y2="775"/>
+    <line class="syn" x1="905" y1="720" x2="960" y2="665"/>
+    <line class="syn" x1="905" y1="720" x2="960" y2="702"/>
+    <line class="syn" x1="905" y1="720" x2="960" y2="738"/>
+    <line class="syn" x1="905" y1="720" x2="960" y2="775"/>
+    <line class="syn" x1="905" y1="775" x2="960" y2="665"/>
+    <line class="syn" x1="905" y1="775" x2="960" y2="702"/>
+    <line class="syn" x1="905" y1="775" x2="960" y2="738"/>
+    <line class="syn" x1="905" y1="775" x2="960" y2="775"/>
+    <line class="syn" x1="960" y1="665" x2="1015" y2="665"/>
+    <line class="syn" x1="960" y1="665" x2="1015" y2="720"/>
+    <line class="syn" x1="960" y1="665" x2="1015" y2="775"/>
+    <line class="syn" x1="960" y1="702" x2="1015" y2="665"/>
+    <line class="syn" x1="960" y1="702" x2="1015" y2="720"/>
+    <line class="syn" x1="960" y1="702" x2="1015" y2="775"/>
+    <line class="syn" x1="960" y1="738" x2="1015" y2="665"/>
+    <line class="syn" x1="960" y1="738" x2="1015" y2="720"/>
+    <line class="syn" x1="960" y1="738" x2="1015" y2="775"/>
+    <line class="syn" x1="960" y1="775" x2="1015" y2="665"/>
+    <line class="syn" x1="960" y1="775" x2="1015" y2="720"/>
+    <line class="syn" x1="960" y1="775" x2="1015" y2="775"/>
+    <line class="syn" x1="1015" y1="665" x2="1070" y2="665"/>
+    <line class="syn" x1="1015" y1="665" x2="1070" y2="702"/>
+    <line class="syn" x1="1015" y1="665" x2="1070" y2="738"/>
+    <line class="syn" x1="1015" y1="665" x2="1070" y2="775"/>
+    <line class="syn" x1="1015" y1="720" x2="1070" y2="665"/>
+    <line class="syn" x1="1015" y1="720" x2="1070" y2="702"/>
+    <line class="syn" x1="1015" y1="720" x2="1070" y2="738"/>
+    <line class="syn" x1="1015" y1="720" x2="1070" y2="775"/>
+    <line class="syn" x1="1015" y1="775" x2="1070" y2="665"/>
+    <line class="syn" x1="1015" y1="775" x2="1070" y2="702"/>
+    <line class="syn" x1="1015" y1="775" x2="1070" y2="738"/>
+    <line class="syn" x1="1015" y1="775" x2="1070" y2="775"/>
+    <circle class="neuron" cx="850" cy="665" r="8"/>
+    <circle class="neuron" cx="850" cy="702" r="8"/>
+    <circle class="neuron" cx="850" cy="738" r="8"/>
+    <circle class="neuron" cx="850" cy="775" r="8"/>
+    <circle class="neuron" cx="905" cy="665" r="8"/>
+    <circle class="neuron" cx="905" cy="720" r="8"/>
+    <circle class="neuron" cx="905" cy="775" r="8"/>
+    <circle class="neuron" cx="960" cy="665" r="8"/>
+    <circle class="neuron" cx="960" cy="702" r="8"/>
+    <circle class="neuron" cx="960" cy="738" r="8"/>
+    <circle class="neuron" cx="960" cy="775" r="8"/>
+    <circle class="neuron" cx="1015" cy="665" r="8"/>
+    <circle class="neuron" cx="1015" cy="720" r="8"/>
+    <circle class="neuron" cx="1015" cy="775" r="8"/>
+    <circle class="neuron" cx="1070" cy="665" r="8"/>
+    <circle class="neuron" cx="1070" cy="702" r="8"/>
+    <circle class="neuron" cx="1070" cy="738" r="8"/>
+    <circle class="neuron" cx="1070" cy="775" r="8"/>
+  </g>
+  <text class="f sh lbl" x="820" y="700" style="fill:#a371f7" text-anchor="end" dominant-baseline="central">TOKEN</text>
+  <text class="f sh lbl" x="820" y="742" style="fill:#a371f7" text-anchor="end" dominant-baseline="central">EFFICIENCY</text>
+  <text class="f sh lbl" x="1100" y="700" style="fill:#3fb950" text-anchor="start" dominant-baseline="central">COST</text>
+  <text class="f sh lbl" x="1100" y="742" style="fill:#3fb950" text-anchor="start" dominant-baseline="central">EFFICIENCY</text>
+  <path class="wire" d="M 890 640 Q 860 570 720 580" marker-end="url(#a-grey)"/>
+  <path class="wire" d="M 1030 640 Q 1060 570 1200 580" marker-end="url(#a-grey)"/>
+  <text class="f sub" x="960" y="580" text-anchor="middle" dominant-baseline="central" font-size="30" font-style="italic">tension</text>
+  <!-- you -->
+  <path class="wire" d="M 960 875 L 960 795" marker-end="url(#a-grey)"/>
+  <circle cx="960" cy="920" r="26" fill="none" stroke="#58a6ff" stroke-width="5"/>
+  <path d="M 920 1005 Q 920 950 960 950 Q 1000 950 1000 1005" fill="none" stroke="#58a6ff" stroke-width="5" stroke-linecap="round"/>
+  <text class="f sh lbl" x="1030" y="965" style="fill:#58a6ff" text-anchor="start" dominant-baseline="central">you</text>
+</svg>

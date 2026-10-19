@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <style>
+    .f{font-family:'Play','Trebuchet MS','Segoe UI',system-ui,sans-serif;font-weight:700}
+    .sh{filter:drop-shadow(2px 2px 4px rgba(0,0,0,.8))}
+    .lbl{font-size:36px;letter-spacing:3px;fill:#e6edf3}
+    .small{font-size:24px;letter-spacing:2px;fill:#e6edf3}
+    .val{font-size:28px}
+    .cat{font-size:28px;font-weight:400;fill:#e6edf3}
+    .sub{font-size:24px;font-weight:400;fill:rgba(230,237,243,0.6)}
+    .axis{fill:none;stroke:#e6edf3;stroke-width:5;stroke-linecap:round}
+    .wire{fill:none;stroke:rgba(230,237,243,0.55);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .hl{fill:none;stroke:rgba(230,237,243,0.35);stroke-width:3;stroke-dasharray:10 8}
+    .icon{fill:none;stroke:#e6edf3;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+
+  <defs>
+    <marker id="a-white" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="a-grey" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="rgba(230,237,243,0.55)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1920" height="1080" rx="24" fill="#0d1117"/>
+
+  <!-- tokens chart -->
+  <path class="axis" d="M 400 330 L 400 120" marker-end="url(#a-white)"/>
+  <path class="axis" d="M 400 330 L 720 330" marker-end="url(#a-white)"/>
+  <path d="M 425 306 L 464 281 L 516 230 L 576 193 L 633 172 L 685 165" fill="none" stroke="rgba(230,237,243,0.7)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="425" cy="306" r="8" fill="#e6edf3"/>
+  <circle cx="464" cy="281" r="8" fill="#e6edf3"/>
+  <circle cx="516" cy="230" r="8" fill="#e6edf3"/>
+  <circle cx="576" cy="193" r="8" fill="#e6edf3"/>
+  <circle cx="633" cy="172" r="8" fill="#e6edf3"/>
+  <circle cx="685" cy="165" r="8" fill="#e6edf3"/>
+  <text class="f sh lbl" x="560" y="372" text-anchor="middle" dominant-baseline="central">TOKENS</text>
+  <text class="f sub" x="374" y="225" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 374 225)">intelligence</text>
+  <!-- cost chart -->
+  <path class="axis" d="M 1200 330 L 1200 120" marker-end="url(#a-white)"/>
+  <path class="axis" d="M 1200 330 L 1520 330" marker-end="url(#a-white)"/>
+  <path d="M 1225 306 L 1264 281 L 1316 230 L 1376 193 L 1433 172 L 1485 165" fill="none" stroke="rgba(230,237,243,0.7)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1225" cy="306" r="8" fill="#e6edf3"/>
+  <circle cx="1264" cy="281" r="8" fill="#e6edf3"/>
+  <circle cx="1316" cy="230" r="8" fill="#e6edf3"/>
+  <circle cx="1376" cy="193" r="8" fill="#e6edf3"/>
+  <circle cx="1433" cy="172" r="8" fill="#e6edf3"/>
+  <circle cx="1485" cy="165" r="8" fill="#e6edf3"/>
+  <text class="f sh lbl" x="1360" y="372" text-anchor="middle" dominant-baseline="central">COST</text>
+  <text class="f sub" x="1174" y="225" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 1174 225)">intelligence</text>
+  <!-- difference -->
+  <path d="M 770 225 L 1150 225" fill="none" stroke="#e6edf3" stroke-width="5" stroke-linecap="round" marker-start="url(#a-white)" marker-end="url(#a-white)"/>
+  <text class="f sh lbl" x="960" y="180" text-anchor="middle" dominant-baseline="central">DIFFERENCE</text>
+  <!-- 5h window inside a weekly allowance -->
+  <text class="f sh small" x="200" y="150" text-anchor="middle" dominant-baseline="central">5H WINDOW</text>
+  <rect x="140" y="175" width="120" height="44" rx="6" fill="rgba(88,166,255,0.18)" stroke="#58a6ff" stroke-width="4"/>
+  <path d="M 140 219 L 140 300" class="wire" stroke-dasharray="6 8"/>
+  <path d="M 260 219 L 180 300" class="wire" stroke-dasharray="6 8"/>
+  <rect x="60" y="300" width="40" height="44" fill="rgba(88,166,255,0.55)" stroke="#e6edf3" stroke-width="3"/>
+  <rect x="100" y="300" width="40" height="44" fill="rgba(88,166,255,0.55)" stroke="#e6edf3" stroke-width="3"/>
+  <rect x="140" y="300" width="40" height="44" fill="rgba(88,166,255,0.18)" stroke="#e6edf3" stroke-width="3"/>
+  <rect x="180" y="300" width="40" height="44" fill="none" stroke="#e6edf3" stroke-width="3"/>
+  <rect x="220" y="300" width="40" height="44" fill="none" stroke="#e6edf3" stroke-width="3"/>
+  <rect x="260" y="300" width="40" height="44" fill="none" stroke="#e6edf3" stroke-width="3"/>
+  <rect x="300" y="300" width="40" height="44" fill="none" stroke="#e6edf3" stroke-width="3"/>
+  <text class="f sh small" x="200" y="380" text-anchor="middle" dominant-baseline="central">WEEKLY ALLOWANCE</text>
+  <path class="wire" d="M 455 378 L 365 330" marker-end="url(#a-grey)"/>
+  <!-- user and card paying per token -->
+  <circle class="icon" cx="1800" cy="150" r="24"/>
+  <path class="icon" d="M 1764 222 Q 1764 182 1800 182 Q 1836 182 1836 222"/>
+  <rect class="icon" x="1752" y="275" width="96" height="62" rx="8"/>
+  <line x1="1752" y1="295" x2="1848" y2="295" stroke="#e6edf3" stroke-width="8"/>
+  <path class="wire" d="M 1735 180 L 1580 180" marker-end="url(#a-grey)"/>
+  <path class="wire" d="M 1735 306 L 1580 306" marker-end="url(#a-grey)"/>
+  <text class="f sh" x="1625" y="140" style="fill:#3fb950" text-anchor="middle" dominant-baseline="central" font-size="40">$</text>
+  <text class="f sh" x="1695" y="140" style="fill:#3fb950" text-anchor="middle" dominant-baseline="central" font-size="40">$</text>
+  <text class="f sh" x="1625" y="266" style="fill:#3fb950" text-anchor="middle" dominant-baseline="central" font-size="40">$</text>
+  <text class="f sh" x="1695" y="266" style="fill:#3fb950" text-anchor="middle" dominant-baseline="central" font-size="40">$</text>
+  <!-- revenue by source -->
+  <line x1="260" y1="940" x2="1660" y2="940" stroke="rgba(230,237,243,0.35)" stroke-width="3"/>
+  <rect x="307" y="610" width="120" height="330" rx="8" fill="#58a6ff"/>
+  <text class="f val" x="367" y="586" style="fill:#58a6ff" text-anchor="middle" dominant-baseline="central">$5.5bn</text>
+  <rect x="443" y="898" width="120" height="42" rx="8" fill="#f0883e"/>
+  <text class="f val" x="503" y="874" style="fill:#f0883e" text-anchor="middle" dominant-baseline="central">$0.7bn</text>
+  <text class="f cat" x="435" y="976" text-anchor="middle" dominant-baseline="central">Consumer subscriptions</text>
+  <rect x="657" y="724" width="120" height="216" rx="8" fill="#58a6ff"/>
+  <text class="f val" x="717" y="700" style="fill:#58a6ff" text-anchor="middle" dominant-baseline="central">$3.6bn</text>
+  <rect x="793" y="886" width="120" height="54" rx="8" fill="#f0883e"/>
+  <text class="f val" x="853" y="862" style="fill:#f0883e" text-anchor="middle" dominant-baseline="central">$0.9bn</text>
+  <text class="f cat" x="785" y="976" text-anchor="middle" dominant-baseline="central">Business &amp; partner</text>
+  <text class="f val" x="1067" y="916" style="fill:#58a6ff" text-anchor="middle" dominant-baseline="central">$0bn</text>
+  <rect x="1143" y="916" width="120" height="24" rx="8" fill="#f0883e"/>
+  <text class="f val" x="1203" y="892" style="fill:#f0883e" text-anchor="middle" dominant-baseline="central">$0.4bn</text>
+  <text class="f cat" x="1135" y="976" text-anchor="middle" dominant-baseline="central">Coding product</text>
+  <rect x="1357" y="766" width="120" height="174" rx="8" fill="#58a6ff"/>
+  <text class="f val" x="1417" y="742" style="fill:#58a6ff" text-anchor="middle" dominant-baseline="central">$2.9bn</text>
+  <rect x="1493" y="754" width="120" height="186" rx="8" fill="#f0883e"/>
+  <text class="f val" x="1553" y="730" style="fill:#f0883e" text-anchor="middle" dominant-baseline="central">$3.1bn</text>
+  <text class="f cat" x="1485" y="976" text-anchor="middle" dominant-baseline="central">API</text>
+  <rect class="hl" x="245" y="560" width="380" height="440" rx="18"/>
+  <path class="wire" d="M 435 555 L 560 410" marker-end="url(#a-grey)"/>
+  <rect class="hl" x="1295" y="560" width="380" height="440" rx="18"/>
+  <path class="wire" d="M 1485 555 L 1360 410" marker-end="url(#a-grey)"/>
+  <!-- legend -->
+  <rect x="870" y="596" width="28" height="28" rx="6" fill="#58a6ff"/>
+  <text class="f cat" x="912" y="610" text-anchor="start" dominant-baseline="central" font-weight="700">OpenAI  $12bn</text>
+  <rect x="870" y="646" width="28" height="28" rx="6" fill="#f0883e"/>
+  <text class="f cat" x="912" y="660" text-anchor="start" dominant-baseline="central" font-weight="700">Anthropic  $5bn</text>
+  <text class="f sub" x="960" y="1045" text-anchor="middle" dominant-baseline="central" font-size="20">2025 annualised revenue by source. Estimates by Peter Gostev from press reports. Neither company publishes an official breakdown.</text>
+</svg>

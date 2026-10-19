@@ -12,7 +12,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-PROVIDERS = ["openai", "anthropic"]  # model_creator slugs to keep
+PROVIDERS = ["openai", "anthropic", "deepseek"]  # model_creator slugs to keep
 API_URL = "https://artificialanalysis.ai/api/v2/data/llms/models"
 SOURCE = "https://artificialanalysis.ai/"
 ROOT = Path(__file__).parent

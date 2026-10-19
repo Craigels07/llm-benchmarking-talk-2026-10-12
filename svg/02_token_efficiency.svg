@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <style>
+    .f{font-family:'Play','Trebuchet MS','Segoe UI',system-ui,sans-serif}
+    .sh{filter:drop-shadow(2px 2px 4px rgba(0,0,0,.8))}
+    .lbl{font-size:34px;letter-spacing:3px;fill:#e6edf3}
+    .sub{font-size:23px;fill:rgba(230,237,243,0.55)}
+    .wire{fill:none;stroke:rgba(230,237,243,0.28);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .syn{stroke:rgba(230,237,243,0.30);stroke-width:2}
+    .neuron{fill:#0d1117;stroke:#e6edf3;stroke-width:3}
+    .axis{fill:none;stroke:#e6edf3;stroke-width:4;stroke-linecap:round}
+  </style>
+
+  <defs>
+    <marker id="a-grey" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="rgba(230,237,243,0.55)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="a-white" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1920" height="1080" rx="24" fill="#0d1117"/>
+
+  <text class="f sh" x="960" y="90" style="fill:#e6edf3" text-anchor="middle" dominant-baseline="central" font-size="44" letter-spacing="6">TOKEN EFFICIENCY</text>
+  <text class="f sub" x="960" y="140" text-anchor="middle" dominant-baseline="central">same task, same answer, different number of output tokens</text>
+  <!-- GPT-6 SOL -->
+  <text class="f sh lbl" x="470" y="295" text-anchor="middle" dominant-baseline="central">GPT-6 SOL</text>
+  <g>
+    <line class="syn" x1="350" y1="355" x2="410" y2="355"/>
+    <line class="syn" x1="350" y1="355" x2="410" y2="420"/>
+    <line class="syn" x1="350" y1="355" x2="410" y2="485"/>
+    <line class="syn" x1="350" y1="398" x2="410" y2="355"/>
+    <line class="syn" x1="350" y1="398" x2="410" y2="420"/>
+    <line class="syn" x1="350" y1="398" x2="410" y2="485"/>
+    <line class="syn" x1="350" y1="442" x2="410" y2="355"/>
+    <line class="syn" x1="350" y1="442" x2="410" y2="420"/>
+    <line class="syn" x1="350" y1="442" x2="410" y2="485"/>
+    <line class="syn" x1="350" y1="485" x2="410" y2="355"/>
+    <line class="syn" x1="350" y1="485" x2="410" y2="420"/>
+    <line class="syn" x1="350" y1="485" x2="410" y2="485"/>
+    <line class="syn" x1="410" y1="355" x2="470" y2="355"/>
+    <line class="syn" x1="410" y1="355" x2="470" y2="398"/>
+    <line class="syn" x1="410" y1="355" x2="470" y2="442"/>
+    <line class="syn" x1="410" y1="355" x2="470" y2="485"/>
+    <line class="syn" x1="410" y1="420" x2="470" y2="355"/>
+    <line class="syn" x1="410" y1="420" x2="470" y2="398"/>
+    <line class="syn" x1="410" y1="420" x2="470" y2="442"/>
+    <line class="syn" x1="410" y1="420" x2="470" y2="485"/>
+    <line class="syn" x1="410" y1="485" x2="470" y2="355"/>
+    <line class="syn" x1="410" y1="485" x2="470" y2="398"/>
+    <line class="syn" x1="410" y1="485" x2="470" y2="442"/>
+    <line class="syn" x1="410" y1="485" x2="470" y2="485"/>
+    <line class="syn" x1="470" y1="355" x2="530" y2="355"/>
+    <line class="syn" x1="470" y1="355" x2="530" y2="420"/>
+    <line class="syn" x1="470" y1="355" x2="530" y2="485"/>
+    <line class="syn" x1="470" y1="398" x2="530" y2="355"/>
+    <line class="syn" x1="470" y1="398" x2="530" y2="420"/>
+    <line class="syn" x1="470" y1="398" x2="530" y2="485"/>
+    <line class="syn" x1="470" y1="442" x2="530" y2="355"/>
+    <line class="syn" x1="470" y1="442" x2="530" y2="420"/>
+    <line class="syn" x1="470" y1="442" x2="530" y2="485"/>
+    <line class="syn" x1="470" y1="485" x2="530" y2="355"/>
+    <line class="syn" x1="470" y1="485" x2="530" y2="420"/>
+    <line class="syn" x1="470" y1="485" x2="530" y2="485"/>
+    <line class="syn" x1="530" y1="355" x2="590" y2="355"/>
+    <line class="syn" x1="530" y1="355" x2="590" y2="398"/>
+    <line class="syn" x1="530" y1="355" x2="590" y2="442"/>
+    <line class="syn" x1="530" y1="355" x2="590" y2="485"/>
+    <line class="syn" x1="530" y1="420" x2="590" y2="355"/>
+    <line class="syn" x1="530" y1="420" x2="590" y2="398"/>
+    <line class="syn" x1="530" y1="420" x2="590" y2="442"/>
+    <line class="syn" x1="530" y1="420" x2="590" y2="485"/>
+    <line class="syn" x1="530" y1="485" x2="590" y2="355"/>
+    <line class="syn" x1="530" y1="485" x2="590" y2="398"/>
+    <line class="syn" x1="530" y1="485" x2="590" y2="442"/>
+    <line class="syn" x1="530" y1="485" x2="590" y2="485"/>
+    <circle class="neuron" cx="350" cy="355" r="8"/>
+    <circle class="neuron" cx="350" cy="398" r="8"/>
+    <circle class="neuron" cx="350" cy="442" r="8"/>
+    <circle class="neuron" cx="350" cy="485" r="8"/>
+    <circle class="neuron" cx="410" cy="355" r="8"/>
+    <circle class="neuron" cx="410" cy="420" r="8"/>
+    <circle class="neuron" cx="410" cy="485" r="8"/>
+    <circle class="neuron" cx="470" cy="355" r="8"/>
+    <circle class="neuron" cx="470" cy="398" r="8"/>
+    <circle class="neuron" cx="470" cy="442" r="8"/>
+    <circle class="neuron" cx="470" cy="485" r="8"/>
+    <circle class="neuron" cx="530" cy="355" r="8"/>
+    <circle class="neuron" cx="530" cy="420" r="8"/>
+    <circle class="neuron" cx="530" cy="485" r="8"/>
+    <circle class="neuron" cx="590" cy="355" r="8"/>
+    <circle class="neuron" cx="590" cy="398" r="8"/>
+    <circle class="neuron" cx="590" cy="442" r="8"/>
+    <circle class="neuron" cx="590" cy="485" r="8"/>
+  </g>
+  <path class="wire" d="M 628 420 L 740 420" marker-end="url(#a-grey)"/>
+  <rect x="750" y="394" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 810 420 L 923 420" marker-end="url(#a-grey)"/>
+  <rect x="933" y="394" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 993 420 L 1105 420" marker-end="url(#a-grey)"/>
+  <rect x="1115" y="394" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 1175 420 L 1288 420" marker-end="url(#a-grey)"/>
+  <rect x="1298" y="394" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 1358 420 L 1470 420" marker-end="url(#a-grey)"/>
+  <path d="M 750 470 L 750 482 L 1350 482 L 1350 470" fill="none" stroke="#a371f7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="f sh lbl" x="1050" y="522" style="fill:#a371f7" text-anchor="middle" dominant-baseline="central">4 tokens</text>
+  <!-- OPUS 5.5 -->
+  <text class="f sh lbl" x="470" y="595" text-anchor="middle" dominant-baseline="central">OPUS 5.5</text>
+  <g>
+    <line class="syn" x1="350" y1="655" x2="410" y2="655"/>
+    <line class="syn" x1="350" y1="655" x2="410" y2="720"/>
+    <line class="syn" x1="350" y1="655" x2="410" y2="785"/>
+    <line class="syn" x1="350" y1="698" x2="410" y2="655"/>
+    <line class="syn" x1="350" y1="698" x2="410" y2="720"/>
+    <line class="syn" x1="350" y1="698" x2="410" y2="785"/>
+    <line class="syn" x1="350" y1="742" x2="410" y2="655"/>
+    <line class="syn" x1="350" y1="742" x2="410" y2="720"/>
+    <line class="syn" x1="350" y1="742" x2="410" y2="785"/>
+    <line class="syn" x1="350" y1="785" x2="410" y2="655"/>
+    <line class="syn" x1="350" y1="785" x2="410" y2="720"/>
+    <line class="syn" x1="350" y1="785" x2="410" y2="785"/>
+    <line class="syn" x1="410" y1="655" x2="470" y2="655"/>
+    <line class="syn" x1="410" y1="655" x2="470" y2="698"/>
+    <line class="syn" x1="410" y1="655" x2="470" y2="742"/>
+    <line class="syn" x1="410" y1="655" x2="470" y2="785"/>
+    <line class="syn" x1="410" y1="720" x2="470" y2="655"/>
+    <line class="syn" x1="410" y1="720" x2="470" y2="698"/>
+    <line class="syn" x1="410" y1="720" x2="470" y2="742"/>
+    <line class="syn" x1="410" y1="720" x2="470" y2="785"/>
+    <line class="syn" x1="410" y1="785" x2="470" y2="655"/>
+    <line class="syn" x1="410" y1="785" x2="470" y2="698"/>
+    <line class="syn" x1="410" y1="785" x2="470" y2="742"/>
+    <line class="syn" x1="410" y1="785" x2="470" y2="785"/>
+    <line class="syn" x1="470" y1="655" x2="530" y2="655"/>
+    <line class="syn" x1="470" y1="655" x2="530" y2="720"/>
+    <line class="syn" x1="470" y1="655" x2="530" y2="785"/>
+    <line class="syn" x1="470" y1="698" x2="530" y2="655"/>
+    <line class="syn" x1="470" y1="698" x2="530" y2="720"/>
+    <line class="syn" x1="470" y1="698" x2="530" y2="785"/>
+    <line class="syn" x1="470" y1="742" x2="530" y2="655"/>
+    <line class="syn" x1="470" y1="742" x2="530" y2="720"/>
+    <line class="syn" x1="470" y1="742" x2="530" y2="785"/>
+    <line class="syn" x1="470" y1="785" x2="530" y2="655"/>
+    <line class="syn" x1="470" y1="785" x2="530" y2="720"/>
+    <line class="syn" x1="470" y1="785" x2="530" y2="785"/>
+    <line class="syn" x1="530" y1="655" x2="590" y2="655"/>
+    <line class="syn" x1="530" y1="655" x2="590" y2="698"/>
+    <line class="syn" x1="530" y1="655" x2="590" y2="742"/>
+    <line class="syn" x1="530" y1="655" x2="590" y2="785"/>
+    <line class="syn" x1="530" y1="720" x2="590" y2="655"/>
+    <line class="syn" x1="530" y1="720" x2="590" y2="698"/>
+    <line class="syn" x1="530" y1="720" x2="590" y2="742"/>
+    <line class="syn" x1="530" y1="720" x2="590" y2="785"/>
+    <line class="syn" x1="530" y1="785" x2="590" y2="655"/>
+    <line class="syn" x1="530" y1="785" x2="590" y2="698"/>
+    <line class="syn" x1="530" y1="785" x2="590" y2="742"/>
+    <line class="syn" x1="530" y1="785" x2="590" y2="785"/>
+    <circle class="neuron" cx="350" cy="655" r="8"/>
+    <circle class="neuron" cx="350" cy="698" r="8"/>
+    <circle class="neuron" cx="350" cy="742" r="8"/>
+    <circle class="neuron" cx="350" cy="785" r="8"/>
+    <circle class="neuron" cx="410" cy="655" r="8"/>
+    <circle class="neuron" cx="410" cy="720" r="8"/>
+    <circle class="neuron" cx="410" cy="785" r="8"/>
+    <circle class="neuron" cx="470" cy="655" r="8"/>
+    <circle class="neuron" cx="470" cy="698" r="8"/>
+    <circle class="neuron" cx="470" cy="742" r="8"/>
+    <circle class="neuron" cx="470" cy="785" r="8"/>
+    <circle class="neuron" cx="530" cy="655" r="8"/>
+    <circle class="neuron" cx="530" cy="720" r="8"/>
+    <circle class="neuron" cx="530" cy="785" r="8"/>
+    <circle class="neuron" cx="590" cy="655" r="8"/>
+    <circle class="neuron" cx="590" cy="698" r="8"/>
+    <circle class="neuron" cx="590" cy="742" r="8"/>
+    <circle class="neuron" cx="590" cy="785" r="8"/>
+  </g>
+  <path class="wire" d="M 628 720 L 688 720" marker-end="url(#a-grey)"/>
+  <rect x="698" y="694" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 758 720 L 819 720" marker-end="url(#a-grey)"/>
+  <rect x="829" y="694" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 889 720 L 949 720" marker-end="url(#a-grey)"/>
+  <rect x="959" y="694" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 1019 720 L 1079 720" marker-end="url(#a-grey)"/>
+  <rect x="1089" y="694" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 1149 720 L 1209 720" marker-end="url(#a-grey)"/>
+  <rect x="1219" y="694" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 1279 720 L 1340 720" marker-end="url(#a-grey)"/>
+  <rect x="1350" y="694" width="52" height="52" rx="8" fill="rgba(8,12,18,0.78)" stroke="#a371f7" stroke-width="3"/>
+  <path class="wire" d="M 1410 720 L 1470 720" marker-end="url(#a-grey)"/>
+  <path d="M 698 770 L 698 782 L 1402 782 L 1402 770" fill="none" stroke="#a371f7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="f sh lbl" x="1050" y="822" style="fill:#a371f7" text-anchor="middle" dominant-baseline="central">6 tokens</text>
+  <!-- completion -->
+  <rect x="1500" y="300" width="64" height="540" rx="10" fill="rgba(63,185,80,0.12)" stroke="#3fb950" stroke-width="4"/>
+  <line x1="1510" y1="360" x2="1554" y2="360" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1510" y1="420" x2="1554" y2="420" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1510" y1="480" x2="1554" y2="480" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1510" y1="540" x2="1554" y2="540" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1510" y1="600" x2="1554" y2="600" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1510" y1="660" x2="1554" y2="660" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1510" y1="720" x2="1554" y2="720" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1510" y1="780" x2="1554" y2="780" stroke="rgba(63,185,80,0.45)" stroke-width="3" stroke-linecap="round"/>
+  <text class="f sh lbl" x="1532" y="890" style="fill:#3fb950" text-anchor="middle" dominant-baseline="central">COMPLETION</text>
+  <text class="f sub" x="1532" y="935" text-anchor="middle" dominant-baseline="central">task done</text>
+</svg>

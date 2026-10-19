@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <style>
+    .f{font-family:'Play','Trebuchet MS','Segoe UI',system-ui,sans-serif;font-weight:700}
+    .sh{filter:drop-shadow(2px 2px 4px rgba(0,0,0,.8))}
+    .lbl{font-size:72px;letter-spacing:4px}
+    .sub{font-size:32px;font-weight:400;fill:rgba(230,237,243,0.6)}
+    .edge{fill:none;stroke-width:16;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+
+  <defs>
+    <!-- each edge fades from one corner's colour to the other's -->
+    <linearGradient id="g-ic" gradientUnits="userSpaceOnUse" x1="960" y1="320" x2="560" y2="900">
+      <stop offset="0" stop-color="#58a6ff"/><stop offset="1" stop-color="#3fb950"/>
+    </linearGradient>
+    <linearGradient id="g-is" gradientUnits="userSpaceOnUse" x1="960" y1="320" x2="1360" y2="900">
+      <stop offset="0" stop-color="#58a6ff"/><stop offset="1" stop-color="#a371f7"/>
+    </linearGradient>
+    <linearGradient id="g-cs" gradientUnits="userSpaceOnUse" x1="560" y1="900" x2="1360" y2="900">
+      <stop offset="0" stop-color="#3fb950"/><stop offset="1" stop-color="#a371f7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" rx="24" fill="#0d1117"/>
+
+  <!-- title -->
+  <text class="f sh" x="960" y="80" font-size="40" letter-spacing="8" fill="rgba(230,237,243,0.75)" text-anchor="middle" dominant-baseline="central">THREE THINGS YOU ARE TRADING</text>
+
+  <!-- triangle -->
+  <path class="edge" d="M 960 320 L 560 900" stroke="url(#g-ic)"/>
+  <path class="edge" d="M 960 320 L 1360 900" stroke="url(#g-is)"/>
+  <path class="edge" d="M 560 900 L 1360 900" stroke="url(#g-cs)"/>
+
+  <!-- corner nodes -->
+  <circle cx="960" cy="320" r="34" fill="#58a6ff"/>
+  <circle cx="560" cy="900" r="34" fill="#3fb950"/>
+  <circle cx="1360" cy="900" r="34" fill="#a371f7"/>
+
+  <!-- top: intelligence -->
+  <text class="f sh lbl" x="960" y="190" fill="#58a6ff" text-anchor="middle" dominant-baseline="central">INTELLIGENCE</text>
+  <text class="f sub" x="960" y="252" text-anchor="middle" dominant-baseline="central">how well it does the task</text>
+
+  <!-- bottom left: cost -->
+  <text class="f sh lbl" x="490" y="880" fill="#3fb950" text-anchor="end" dominant-baseline="central">COST</text>
+  <text class="f sub" x="490" y="940" text-anchor="end" dominant-baseline="central">$ per task</text>
+
+  <!-- bottom right: speed -->
+  <text class="f sh lbl" x="1430" y="880" fill="#a371f7" text-anchor="start" dominant-baseline="central">SPEED</text>
+  <text class="f sub" x="1430" y="940" text-anchor="start" dominant-baseline="central">tokens/s &#183; latency</text>
+</svg>
